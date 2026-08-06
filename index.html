@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="2026 切地瓜四天三夜騎旅：富貴角、北橫、武嶺、塔塔加、阿里山、那瑪夏、鵝鑾鼻、玉長公路。">
+  <meta name="theme-color" content="#17191d">
+  <meta property="og:title" content="2026 切地瓜｜四天三夜縱貫山海騎旅">
+  <meta property="og:description" content="10/31—11/3，從富貴角一路縱切至鵝鑾鼻，再經東岸與玉長公路返北。">
+  <title>2026 切地瓜｜四天三夜縱貫山海騎旅</title>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://tile.openstreetmap.org">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero" id="top">
+    <div class="hero-noise"></div>
+    <nav class="nav shell">
+      <a class="brand" href="#top" aria-label="回到首頁">
+        <span class="brand-mark">切</span>
+        <span>2026 切地瓜</span>
+      </a>
+      <div class="nav-links">
+        <a href="#journey">行程</a>
+        <a href="#map-section">地圖</a>
+        <a href="#navigation">導航</a>
+        <a href="#checklist">整備</a>
+      </div>
+    </nav>
+
+    <div class="hero-content shell">
+      <div class="hero-copy">
+        <div class="overline">TAIWAN · NORTH TO SOUTH · 4 DAYS</div>
+        <h1>沿著山脈，<br><span>把台灣切開。</span></h1>
+        <p class="hero-lead">
+          從富貴角穿越北橫、武嶺、塔塔加與阿里山，
+          抵達鵝鑾鼻後轉入東岸，最後由玉長公路與蘇花返北。
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#navigation">開啟分段導航</a>
+          <a class="button button-ghost" href="#map-section">查看全程地圖</a>
+        </div>
+      </div>
+
+      <aside class="trip-pass" aria-label="旅程資訊">
+        <div class="pass-top">
+          <span>RIDE PASS</span>
+          <span>2026</span>
+        </div>
+        <div class="pass-title">切地瓜</div>
+        <div class="pass-grid">
+          <div><small>DATE</small><strong>10.31 — 11.03</strong></div>
+          <div><small>DURATION</small><strong>4 DAYS / 3 NIGHTS</strong></div>
+          <div><small>DISTANCE</small><strong>1,400–1,500 KM</strong></div>
+          <div><small>STAY</small><strong>埔里・甲仙・台東</strong></div>
+        </div>
+        <div class="pass-route">
+          <span>富貴角</span><i></i><span>鵝鑾鼻</span><i></i><span>蘆洲</span>
+        </div>
+      </aside>
+    </div>
+
+    <div class="hero-strip">
+      <div class="shell strip-inner">
+        <span>北橫</span><b>台7甲</b><span>武嶺</span><b>台21</b>
+        <span>塔塔加</span><b>嘉129</b><span>那瑪夏</span><b>台26</b>
+        <span>鵝鑾鼻</span><b>台30</b><span>玉長公路</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section shell" id="journey">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">THE JOURNEY</div>
+          <h2>四天，四種路線性格</h2>
+        </div>
+        <p>不是觀光行程，而是一趟以騎乘本身為主的縱貫旅程。</p>
+      </div>
+      <div class="day-overview" id="dayOverview"></div>
+    </section>
+
+    <section class="map-section" id="map-section">
+      <div class="shell">
+        <div class="section-head section-head-light">
+          <div>
+            <div class="eyebrow">ROUTE OVERVIEW</div>
+            <h2>沿著中央山脈向南</h2>
+          </div>
+          <p>總覽線條用來辨認整體方向；正式騎乘請使用下方的分段 Google Maps 導航。</p>
+        </div>
+        <div class="map-toolbar" id="mapToolbar"></div>
+        <div class="map-frame">
+          <div id="map" role="img" aria-label="2026切地瓜四天路線總覽"></div>
+          <div class="map-caption">Map data © OpenStreetMap contributors</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="navigation">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">GOOGLE MAPS</div>
+          <h2>每日分段導航</h2>
+        </div>
+        <p>每一段都以必要途經點鎖住路線，避免 Google Maps 自動改走最快道路。</p>
+      </div>
+      <div class="route-layout">
+        <div class="day-tabs" id="dayTabs" role="tablist" aria-label="切換每日路線"></div>
+        <div id="routePanel"></div>
+      </div>
+    </section>
+
+    <section class="section checklist-section" id="checklist">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">BEFORE THE RIDE</div>
+            <h2>出發前整備</h2>
+          </div>
+          <div class="check-progress-card" aria-live="polite">
+            <div>
+              <small>完成進度</small>
+              <strong id="checkProgressText">0 / 16</strong>
+            </div>
+            <div class="progress-ring" id="progressRing" style="--progress:0">
+              <span id="progressPercent">0%</span>
+            </div>
+          </div>
+        </div>
+        <div class="check-groups" id="checkGroups"></div>
+        <div class="check-footer">
+          <span>勾選內容會保留在目前瀏覽器中。</span>
+          <button type="button" id="resetChecks">全部清除</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="road-note">
+      <div class="shell note-inner">
+        <div class="note-icon">!</div>
+        <div>
+          <strong>正式出發前仍需重新確認道路。</strong>
+          <p>山區施工、災害封閉與放行時段可能變動；Google Maps 僅供導航，現場標誌與公路局公告優先。</p>
+        </div>
+        <a href="https://168.thb.gov.tw/" target="_blank" rel="noopener">查看即時路況 ↗</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-inner">
+      <div>
+        <strong>2026 切地瓜</strong>
+        <span>10/31（六）— 11/3（二）</span>
+      </div>
+      <a href="#top">回到頂端 ↑</a>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="route-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
