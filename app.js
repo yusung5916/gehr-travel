@@ -45,14 +45,6 @@
     $("#footer-title").textContent = data.meta.title;
     $("#footer-source").textContent = `整理自對話「${data.meta.sourceConversation}」`;
 
-    $("#reference-title").textContent = `${data.reference.title} · ${data.reference.variant}`;
-    $("#reference-note").textContent = data.reference.note;
-    $("#reference-checked").textContent = `路線資料核對：${data.reference.checked}`;
-    $("#reference-map").href = data.reference.mapUrl;
-    $("#reference-map").textContent = "開啟機車總覽";
-    $("#reference-linktree").href = data.reference.secondaryUrl;
-    $("#reference-linktree").textContent = "開啟 TCT 參考圖";
-
     const segmentCount = data.days.reduce((sum, day) => sum + day.segments.length, 0);
     const overnightStops = data.days.filter((day) => day.stay && !day.stay.includes("導航")).length;
     const stats = [
