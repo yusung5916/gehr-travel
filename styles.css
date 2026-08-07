@@ -428,6 +428,88 @@ h1 {
   line-height: 1.75;
 }
 
+.map-section {
+  margin: 0 0 7rem;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: #081214;
+  box-shadow: var(--shadow);
+}
+
+.map-heading h2 {
+  color: #f4f0e8;
+}
+
+.map-heading > p {
+  color: #a9b6b4;
+}
+
+.map-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-bottom: 1rem;
+}
+
+.map-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: transparent;
+  color: #a9b6b4;
+  cursor: pointer;
+}
+
+.map-toggle i {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--day-color);
+}
+
+.map-toggle.active {
+  border-color: color-mix(in srgb, var(--day-color) 60%, white);
+  background: color-mix(in srgb, var(--day-color) 16%, transparent);
+  color: #f4f0e8;
+}
+
+.map-frame {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 22px;
+}
+
+#map {
+  height: 620px;
+  background: #172326;
+}
+
+.map-caption {
+  position: absolute;
+  right: 0.7rem;
+  bottom: 0.55rem;
+  z-index: 500;
+  padding: 0.3rem 0.45rem;
+  border-radius: 8px;
+  background: rgba(8, 18, 20, 0.78);
+  color: #d7dedc;
+  font-size: 0.68rem;
+}
+
+.route-marker {
+  width: 14px;
+  height: 14px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: var(--marker-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.36);
+}
+
 .day-tabs {
   display: flex;
   gap: 0.6rem;
@@ -817,6 +899,15 @@ h1 {
 
   .section {
     padding: 5rem 0;
+  }
+
+  .map-section {
+    margin-bottom: 5rem;
+    padding: 1rem;
+  }
+
+  #map {
+    height: 500px;
   }
 
   .principle {

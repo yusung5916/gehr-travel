@@ -51,7 +51,7 @@
       [`${data.days.length} 天 ${overnightStops} 夜`, "行程長度"],
       [`${segmentCount} 段`, "Google Maps 分段"],
       [`${overnightStops} 個住宿城市`, data.days.filter((day) => day.stay && !day.stay.includes("導航")).map((day) => day.stay).join(" · ")],
-      ["CB200X", "預定車輛"]
+      ["依最短續航", "編排加油"]
     ];
     $("#stats").innerHTML = stats
       .map(([value, label]) => `<div class="stat"><strong>${value}</strong><span>${label}</span></div>`)
@@ -164,6 +164,67 @@
     });
   }
 
+  function renderRouteMap() {
+    const mapRoot = $("#map");
+    if (!mapRoot || !window.L) return;
+
+    const map = L.map(mapRoot, {
+      scrollWheelZoom: false,
+      zoomControl: true
+    }).setView([23.75, 121], 7);
+
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 18,
+      attribution: "&copy; OpenStreetMap contributors"
+    }).addTo(map);
+
+    const toolbar = $("#map-toolbar");
+    const allPoints = [];
+
+    data.days.forEach((day) => {
+      const layer = L.layerGroup().addTo(map);
+      const points = day.mapPoints.map(([lat, lng]) => [lat, lng]);
+      allPoints.push(...points);
+
+      L.polyline(points, {
+        color: day.color,
+        weight: 5,
+        opacity: 0.88,
+        dashArray: "7 8",
+        lineCap: "round"
+      }).addTo(layer);
+
+      day.mapPoints.forEach(([lat, lng, name]) => {
+        const icon = L.divIcon({
+          className: "",
+          html: `<div class="route-marker" style="--marker-color:${day.color}"></div>`,
+          iconSize: [14, 14],
+          iconAnchor: [7, 7]
+        });
+        L.marker([lat, lng], { icon })
+          .bindPopup(`<strong>Day ${day.day}｜${name}</strong><br>${day.route}`)
+          .addTo(layer);
+      });
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "map-toggle active";
+      button.style.setProperty("--day-color", day.color);
+      button.setAttribute("aria-pressed", "true");
+      button.innerHTML = `<i aria-hidden="true"></i><span>Day ${day.day} · ${day.date}</span>`;
+      button.addEventListener("click", () => {
+        const active = map.hasLayer(layer);
+        if (active) map.removeLayer(layer);
+        else layer.addTo(map);
+        button.classList.toggle("active", !active);
+        button.setAttribute("aria-pressed", String(!active));
+      });
+      toolbar.appendChild(button);
+    });
+
+    map.fitBounds(allPoints, { padding: [28, 28] });
+  }
+
   function readChecklist() {
     try {
       return JSON.parse(localStorage.getItem(checklistKey)) || {};
@@ -251,6 +312,7 @@
 
   renderMeta();
   renderPrinciples();
+  renderRouteMap();
   renderDays();
   renderChecklist();
   renderOpenQuestions();

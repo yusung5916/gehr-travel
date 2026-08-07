@@ -6,6 +6,9 @@
     <meta name="theme-color" content="#0b1618" />
     <meta name="description" content="切地瓜騎乘路線、分段導航與出發前檢查。" />
     <title>2026 切地瓜｜四天三夜騎乘規劃</title>
+    <link rel="preconnect" href="https://unpkg.com" />
+    <link rel="preconnect" href="https://tile.openstreetmap.org" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -17,6 +20,7 @@
         <span>Qiedigua 2026</span>
       </a>
       <nav class="header-nav" aria-label="頁面導覽">
+        <a href="#map-section">地圖</a>
         <a href="#route">路線</a>
         <a href="#checklist">檢查</a>
         <button class="theme-toggle" type="button" aria-label="切換明暗模式" title="切換明暗模式">
@@ -67,6 +71,21 @@
         <div class="principle-grid" id="principles-list"></div>
       </section>
 
+      <section class="map-section" id="map-section" aria-labelledby="map-title">
+        <div class="section-heading route-heading map-heading">
+          <div>
+            <p class="section-kicker">Route overview</p>
+            <h2 id="map-title">沿著台灣走完四天</h2>
+          </div>
+          <p>這張圖用來掌握全程方向；實際騎乘仍以每日分段導航和當日路況為準。</p>
+        </div>
+        <div class="map-toolbar" id="map-toolbar" aria-label="切換每日路線"></div>
+        <div class="map-frame">
+          <div id="map" role="region" aria-label="2026 切地瓜四天路線互動地圖"></div>
+          <div class="map-caption">Map data © OpenStreetMap contributors</div>
+        </div>
+      </section>
+
       <section class="section route-section" id="route" aria-labelledby="route-title">
         <div class="section-heading route-heading">
           <div>
@@ -112,6 +131,7 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="route-data.js"></script>
     <script src="app.js"></script>
   </body>
