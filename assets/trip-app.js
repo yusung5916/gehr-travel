@@ -52,7 +52,7 @@
       [`${data.days.length} 天 ${overnightStops} 夜`, "行程長度"],
       [`${segmentCount} 段`, "Google Maps 分段"],
       [`${overnightStops} 個住宿城市`, data.days.filter((day) => day.stay && !day.stay.includes("導航")).map((day) => day.stay).join(" · ")],
-      ["依最短續航", "編排加油"]
+      ["沿途錨點", "加油機動判斷"]
     ];
     $("#stats").innerHTML = stats
       .map(([value, label]) => `<div class="stat"><strong>${value}</strong><span>${label}</span></div>`)
@@ -316,6 +316,46 @@
       .join("");
   }
 
+  function renderMealOptions() {
+    const container = $("#meal-groups");
+    if (!container || !data.mealOptions?.length) return;
+    container.innerHTML = data.mealOptions
+      .map(
+        (group) => `
+          <article class="meal-group" style="--day-color:${data.days[group.day - 1]?.color || "var(--accent)"}">
+            <div class="meal-heading">
+              <div>
+                <span class="meal-day">Day ${group.day}</span>
+                <h3>${group.title}</h3>
+              </div>
+              <p>${group.note}</p>
+            </div>
+            <div class="meal-list">
+              ${group.items
+                .map(
+                  (item) => `
+                    <div class="meal-card">
+                      <div>
+                        <span class="meal-type">${item.meal}</span>
+                        <h4>${item.name}</h4>
+                        <div class="meal-tags">
+                          <span>${item.hours}</span>
+                          <span>${item.price}</span>
+                        </div>
+                        <p>${item.note}</p>
+                      </div>
+                      <a class="map-button" href="${mapSearchUrl(item.query)}" target="_blank" rel="noopener noreferrer">
+                        查看位置 <span aria-hidden="true">↗</span>
+                      </a>
+                    </div>`
+                )
+                .join("")}
+            </div>
+          </article>`
+      )
+      .join("");
+  }
+
   function renderReferences() {
     const container = $("#reference-list");
     if (!container || !data.references?.length) return;
@@ -383,6 +423,7 @@
   renderPrinciples();
   renderRouteMap();
   renderDays();
+  renderMealOptions();
   renderFuelBackups();
   renderChecklist();
   renderOpenQuestions();
