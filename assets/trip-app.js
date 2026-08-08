@@ -323,16 +323,22 @@
       .map(
         (reference, index) => `
           <li class="reference-item" id="ref-${index + 1}">
-            <div class="reference-index">${index + 1}</div>
+            <div class="reference-index">[${index + 1}]</div>
             <div class="reference-body">
-              <div class="reference-meta">
-                <span>${reference.type}</span>
-                <span>發布 ${reference.published}</span>
-                <span>${reference.author}</span>
-              </div>
-              <h3><a href="${reference.url}" target="_blank" rel="noopener noreferrer">${reference.title}<span aria-hidden="true"> ↗</span></a></h3>
-              <ul>${reference.observations.map((item) => `<li>${item}</li>`).join("")}</ul>
-              <p>${reference.caveat}</p>
+              <p class="reference-line">
+                <a href="${reference.url}" target="_blank" rel="noopener noreferrer">${reference.title}<span aria-hidden="true"> ↗</span></a>
+                <span>— ${reference.summary}</span>
+              </p>
+              <details>
+                <summary>查看摘錄與適用限制</summary>
+                <div class="reference-meta">
+                  <span>${reference.type}</span>
+                  <span>${reference.published}</span>
+                  <span>${reference.author}</span>
+                </div>
+                <ul>${reference.observations.map((item) => `<li>${item}</li>`).join("")}</ul>
+                <p>${reference.caveat}</p>
+              </details>
             </div>
           </li>`
       )

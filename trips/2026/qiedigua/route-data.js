@@ -12,8 +12,8 @@ const tripData = {
     dateLabel: "2026/10/31（六）— 11/3（二）",
     startDate: "2026-10-31",
     endDate: "2026-11-03",
-    statusLabel: "規劃中",
-    status: "前兩日加油導航已補",
+    statusLabel: "行程規劃中",
+    status: "路線初版完成",
     startName: "富貴角燈塔",
     endName: "青潭橋",
     endDetail: "北宜公路台北端",
@@ -573,11 +573,25 @@ const tripData = {
 
   references: [
     {
+      type: "Google My Maps｜正式路線骨架",
+      title: "肯吉老王_切地瓜環島地圖",
+      author: "肯吉老王",
+      published: "2026-08-07 查閱",
+      url: "https://www.google.com/maps/d/viewer?mid=1ioDnWfwySEr0u7tpbHnaZavKQFASy5Y",
+      summary: "本行程分段導航採用的機車正統路線骨架。",
+      observations: [
+        "以地圖中的「切地瓜正統路線（機車）」圖層與關鍵節點作為主導航依據。",
+        "Google Maps 仍拆成短段，出發前需拉遠確認沒有被重新導向較快但不同的道路。"
+      ],
+      caveat: "原始 My Maps 用來確認應走道路；本網站的住宿、加油、用餐與分日安排是另外整理，不代表原作者建議。"
+    },
+    {
       type: "YouTube 行程總覽",
       title: "「切地瓜」怎麼切？到底要走那些公路呢？",
       author: "Tracy&Vincent",
       published: "2025-10-20",
       url: "https://www.youtube.com/watch?v=k1RUxctQcrY",
+      summary: "四天三夜、約 1,250 公里的整體行程尺度。",
       observations: [
         "以四天三夜、約 1,250 公里的中央山脈縱走為題，適合用來理解整體行程尺度。",
         "影片後半段路線與本規劃不完全相同，分日切點不能直接照搬。"
@@ -590,6 +604,7 @@ const tripData = {
       author: "Tracy&Vincent",
       published: "2025-08-14",
       url: "https://www.youtube.com/watch?v=4Avh8MusIhc",
+      summary: "06:30 西門町出發；15:25 已進入武嶺下山路段。",
       observations: [
         "約 06:30 從台北西門町出發，並非先到富貴角起算。",
         "約 15:25 已由武嶺下降約 800 公尺、行經海拔約 2,450 公尺路段；當晚再到埔里用餐並住宿日月潭。",
@@ -603,6 +618,7 @@ const tripData = {
       author: "Tracy&Vincent",
       published: "2025-09-22",
       url: "https://www.youtube.com/watch?v=hcJ2sOHFrrY",
+      summary: "07:00 出發；16:10 六龜；18:39 鵝鑾鼻。",
       observations: [
         "約 07:00 出發，約 16:10 通過六龜，18:39 抵達鵝鑾鼻。",
         "途中遇到一處管制；影片騎乘方式仍屬夫妻雙載、非趕路型案例。",
