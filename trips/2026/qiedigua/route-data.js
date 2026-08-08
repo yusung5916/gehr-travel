@@ -1,20 +1,22 @@
 /*
- * 2026 切地瓜行程唯一資料正本。
+ * 2026 切地瓜公開行程唯一資料正本。
  * 後續調整日期、路線、時間、導航點或檢查事項，請只修改本檔。
  */
-window.TRIP_DATA = {
+(() => {
+const tripData = {
   meta: {
+    id: "2026-qiedigua",
+    slug: "qiedigua",
     title: "2026 切地瓜",
     eyebrow: "四天三夜 · 車種不限定 · 騎乘為主",
     dateLabel: "2026/10/31（六）— 11/3（二）",
     startDate: "2026-10-31",
     endDate: "2026-11-03",
+    statusLabel: "規劃中",
     status: "前兩日加油導航已補",
     startName: "富貴角燈塔",
     endName: "青潭橋",
     endDetail: "北宜公路台北端",
-    sourceConversation: "黃牌大羊挑戰建議",
-    sourceConversationId: "6a71a8e2-eef8-83ee-92c9-0e95bdcda2b2",
     updated: "2026-08-09",
     note: "住宿切點為埔里、恆春、安通（暫定）；前兩天已將主線沿途的重要加油站切成導航端點，方便逐站掌握續航與時間。"
   },
@@ -569,6 +571,47 @@ window.TRIP_DATA = {
     }
   ],
 
+  references: [
+    {
+      type: "YouTube 行程總覽",
+      title: "「切地瓜」怎麼切？到底要走那些公路呢？",
+      author: "Tracy&Vincent",
+      published: "2025-10-20",
+      url: "https://www.youtube.com/watch?v=k1RUxctQcrY",
+      observations: [
+        "以四天三夜、約 1,250 公里的中央山脈縱走為題，適合用來理解整體行程尺度。",
+        "影片後半段路線與本規劃不完全相同，分日切點不能直接照搬。"
+      ],
+      caveat: "總覽影片只作路線案例索引；實際時間以分日影片、當日管制與本行程停留方式重新估算。"
+    },
+    {
+      type: "YouTube 實騎案例｜Day 1",
+      title: "北橫、中橫、合歡山武嶺｜切地瓜 Day 1/4",
+      author: "Tracy&Vincent",
+      published: "2025-08-14",
+      url: "https://www.youtube.com/watch?v=4Avh8MusIhc",
+      observations: [
+        "約 06:30 從台北西門町出發，並非先到富貴角起算。",
+        "約 15:25 已由武嶺下降約 800 公尺、行經海拔約 2,450 公尺路段；當晚再到埔里用餐並住宿日月潭。",
+        "騎士為夫妻雙載、以輕鬆完成為主，途中曾遇到多處管制。"
+      ],
+      caveat: "本行程若 05:00 從個人出發點前往富貴角，會多出集合前接駁與極北點起算路段；這筆案例只能證明埔里切點具有可行性，不能直接推出抵達時間。"
+    },
+    {
+      type: "YouTube 實騎案例｜Day 2",
+      title: "玉山景觀公路、阿里山、那瑪夏、沿山公路｜切地瓜 Day 2/4",
+      author: "Tracy&Vincent",
+      published: "2025-09-22",
+      url: "https://www.youtube.com/watch?v=hcJ2sOHFrrY",
+      observations: [
+        "約 07:00 出發，約 16:10 通過六龜，18:39 抵達鵝鑾鼻。",
+        "途中遇到一處管制；影片騎乘方式仍屬夫妻雙載、非趕路型案例。",
+        "本規劃第二晚只到恆春，鵝鑾鼻移到第三天早上，因此比影片留有較多緩衝。"
+      ],
+      caveat: "道路、管制時段、休息與用餐停留會改變結果；這筆案例主要用來判斷六龜作為住宿點偏早，以及恆春切點相對從容。"
+    }
+  ],
+
   checkpoints: [
     {
       group: "出發前 1–2 個月",
@@ -607,3 +650,8 @@ window.TRIP_DATA = {
     "各日初估抵達時間已含一般休息，但需等加油、午晚餐與管制點補齊後再重算；若 Day 4 未能白天進蘇花，備用住宿或替代返程方案尚未定案。"
   ]
 };
+
+window.TRAVEL_TRIPS = window.TRAVEL_TRIPS || {};
+window.TRAVEL_TRIPS[tripData.meta.id] = tripData;
+window.TRIP_DATA = tripData;
+})();

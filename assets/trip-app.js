@@ -10,7 +10,7 @@
   const $ = (selector, scope = document) => scope.querySelector(selector);
   const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
   const checklistKey = `trip-checklist:${data.meta.startDate}:${data.meta.title}`;
-  const themeKey = "trip-site-theme";
+  const themeKey = "gehr-travel-theme";
   let toastTimer;
 
   function mapUrl(segment) {
@@ -44,11 +44,7 @@
     $("#hero-title").textContent = data.meta.title;
     $("#trip-date").textContent = data.meta.dateLabel;
     $("#trip-note").textContent = data.meta.note;
-    $("#poster-start").textContent = data.meta.startName;
-    $("#poster-end").textContent = data.meta.endName;
-    $("#poster-caption").textContent = `${data.meta.startName}起算 · 鵝鑾鼻完成主線 · ${data.meta.endDetail}結束導航`;
     $("#footer-title").textContent = data.meta.title;
-    $("#footer-source").textContent = `整理自對話「${data.meta.sourceConversation}」`;
 
     const segmentCount = data.days.reduce((sum, day) => sum + day.segments.length, 0);
     const overnightStops = data.days.filter((day) => day.stay && !day.stay.includes("導航")).length;
@@ -320,6 +316,29 @@
       .join("");
   }
 
+  function renderReferences() {
+    const container = $("#reference-list");
+    if (!container || !data.references?.length) return;
+    container.innerHTML = data.references
+      .map(
+        (reference, index) => `
+          <li class="reference-item" id="ref-${index + 1}">
+            <div class="reference-index">${index + 1}</div>
+            <div class="reference-body">
+              <div class="reference-meta">
+                <span>${reference.type}</span>
+                <span>發布 ${reference.published}</span>
+                <span>${reference.author}</span>
+              </div>
+              <h3><a href="${reference.url}" target="_blank" rel="noopener noreferrer">${reference.title}<span aria-hidden="true"> ↗</span></a></h3>
+              <ul>${reference.observations.map((item) => `<li>${item}</li>`).join("")}</ul>
+              <p>${reference.caveat}</p>
+            </div>
+          </li>`
+      )
+      .join("");
+  }
+
   function setupTheme() {
     const saved = localStorage.getItem(themeKey);
     if (saved) document.documentElement.dataset.theme = saved;
@@ -361,6 +380,7 @@
   renderFuelBackups();
   renderChecklist();
   renderOpenQuestions();
+  renderReferences();
   setupTheme();
   setupActions();
 })();
