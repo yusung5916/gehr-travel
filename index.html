@@ -22,6 +22,7 @@
       <nav class="header-nav" aria-label="頁面導覽">
         <a href="#map-section">地圖</a>
         <a href="#route">路線</a>
+        <a href="#fuel-backups">備援站</a>
         <a href="#checklist">檢查</a>
         <button class="theme-toggle" type="button" aria-label="切換明暗模式" title="切換明暗模式">
           <span aria-hidden="true">◐</span>
@@ -96,6 +97,17 @@
         </div>
         <div class="day-tabs" id="day-tabs" role="tablist" aria-label="選擇行程日"></div>
         <div id="day-panels"></div>
+      </section>
+
+      <section class="section fuel-backup-section" id="fuel-backups" aria-labelledby="fuel-backups-title">
+        <div class="section-heading route-heading">
+          <div>
+            <p class="section-kicker">Fuel backup</p>
+            <h2 id="fuel-backups-title">附近備用加油站</h2>
+          </div>
+          <p>這些站不放進正式導航，不會改變正統路線；只有油量或營業狀況有問題時才開位置查看。</p>
+        </div>
+        <div class="fuel-backup-groups" id="fuel-backup-groups"></div>
       </section>
 
       <section class="section checklist-section" id="checklist" aria-labelledby="checklist-title">

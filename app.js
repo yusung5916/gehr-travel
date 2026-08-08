@@ -24,6 +24,11 @@
     return `https://www.google.com/maps/dir/?${params.toString()}`;
   }
 
+  function mapSearchUrl(query) {
+    const params = new URLSearchParams({ api: "1", query });
+    return `https://www.google.com/maps/search/?${params.toString()}`;
+  }
+
   function showToast(message) {
     const toast = $("#toast");
     toast.textContent = message;
@@ -276,6 +281,45 @@
     $("#open-questions").innerHTML = data.openQuestions.map((item) => `<li>${item}</li>`).join("");
   }
 
+  function renderFuelBackups() {
+    const container = $("#fuel-backup-groups");
+    if (!container || !data.fuelBackups?.length) return;
+    container.innerHTML = data.fuelBackups
+      .map(
+        (group) => `
+          <article class="fuel-backup-group">
+            <div class="fuel-backup-heading">
+              <div>
+                <span class="fuel-day">Day ${group.day}</span>
+                <h3>${group.title}</h3>
+              </div>
+              <p>${group.note}</p>
+            </div>
+            <div class="fuel-backup-list">
+              ${group.stations
+                .map(
+                  (station) => `
+                    <div class="fuel-backup-card">
+                      <div>
+                        <h4>${station.name}</h4>
+                        <div class="fuel-tags">
+                          <span>${station.distance}</span>
+                          <span>${station.hours}</span>
+                        </div>
+                        <p>${station.note}</p>
+                      </div>
+                      <a class="map-button" href="${mapSearchUrl(station.query)}" target="_blank" rel="noopener noreferrer">
+                        查看位置 <span aria-hidden="true">↗</span>
+                      </a>
+                    </div>`
+                )
+                .join("")}
+            </div>
+          </article>`
+      )
+      .join("");
+  }
+
   function setupTheme() {
     const saved = localStorage.getItem(themeKey);
     if (saved) document.documentElement.dataset.theme = saved;
@@ -314,6 +358,7 @@
   renderPrinciples();
   renderRouteMap();
   renderDays();
+  renderFuelBackups();
   renderChecklist();
   renderOpenQuestions();
   setupTheme();
