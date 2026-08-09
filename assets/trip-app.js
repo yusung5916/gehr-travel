@@ -291,23 +291,37 @@
               </div>
               <p>${group.note}</p>
             </div>
-            <div class="fuel-backup-list">
-              ${group.stations
+            <div class="supply-segment-list">
+              ${group.segments
                 .map(
-                  (station) => `
-                    <div class="fuel-backup-card">
-                      <div>
-                        <h4>${station.name}</h4>
-                        <div class="fuel-tags">
-                          ${station.kind ? `<span>${station.kind}</span>` : ""}
-                          ${station.hours ? `<span>${station.hours}</span>` : ""}
-                        </div>
-                        <p>${station.note}</p>
+                  (segment) => `
+                    <details class="supply-segment">
+                      <summary>
+                        <span class="supply-code">${segment.code}</span>
+                        <span class="supply-segment-title">${segment.title}</span>
+                        <span class="supply-count">${segment.stations.length} 站</span>
+                      </summary>
+                      <div class="fuel-backup-list">
+                        ${segment.stations
+                          .map(
+                            (station) => `
+                              <div class="fuel-backup-card">
+                                <div>
+                                  <h4>${station.name}</h4>
+                                  <div class="fuel-tags">
+                                    ${station.kind ? `<span>${station.kind}</span>` : ""}
+                                    ${station.hours ? `<span>${station.hours}</span>` : ""}
+                                  </div>
+                                  <p>${station.note}</p>
+                                </div>
+                                <a class="map-button" href="${mapSearchUrl(station.query)}" target="_blank" rel="noopener noreferrer">
+                                  查看位置 <span aria-hidden="true">↗</span>
+                                </a>
+                              </div>`
+                          )
+                          .join("")}
                       </div>
-                      <a class="map-button" href="${mapSearchUrl(station.query)}" target="_blank" rel="noopener noreferrer">
-                        查看位置 <span aria-hidden="true">↗</span>
-                      </a>
-                    </div>`
+                    </details>`
                 )
                 .join("")}
             </div>
@@ -330,24 +344,42 @@
               </div>
               <p>${group.note}</p>
             </div>
-            <div class="meal-list">
-              ${group.items
+            <div class="meal-periods">
+              ${["早餐", "午餐", "晚餐"]
+                .filter((period) => group.items.some((item) => item.period === period))
                 .map(
-                  (item) => `
-                    <div class="meal-card">
-                      <div>
-                        <span class="meal-type">${item.meal}</span>
-                        <h4>${item.name}</h4>
-                        <div class="meal-tags">
-                          <span>${item.hours}</span>
-                          <span>${item.price}</span>
-                        </div>
-                        <p>${item.note}</p>
+                  (period) => `
+                    <section class="meal-period">
+                      <div class="meal-period-heading">
+                        <h4>${period}</h4>
+                        <span>${group.items.filter((item) => item.period === period).length} 個選項</span>
                       </div>
-                      <a class="map-button" href="${mapSearchUrl(item.query)}" target="_blank" rel="noopener noreferrer">
-                        查看位置 <span aria-hidden="true">↗</span>
-                      </a>
-                    </div>`
+                      <div class="meal-list">
+                        ${group.items
+                          .filter((item) => item.period === period)
+                          .map(
+                            (item) => `
+                              <div class="meal-card">
+                                <div>
+                                  <div class="meal-labels">
+                                    <span class="meal-type">${item.role}</span>
+                                    <span class="meal-segment">${item.segment}</span>
+                                  </div>
+                                  <h4>${item.name}</h4>
+                                  <div class="meal-tags">
+                                    <span>${item.hours}</span>
+                                    <span>${item.price}</span>
+                                  </div>
+                                  <p>${item.note}</p>
+                                </div>
+                                <a class="map-button" href="${mapSearchUrl(item.query)}" target="_blank" rel="noopener noreferrer">
+                                  查看位置 <span aria-hidden="true">↗</span>
+                                </a>
+                              </div>`
+                          )
+                          .join("")}
+                      </div>
+                    </section>`
                 )
                 .join("")}
             </div>

@@ -658,6 +658,7 @@ h1 {
 
 .meal-day,
 .meal-type,
+.meal-segment,
 .meal-tags span {
   padding: 0.22rem 0.5rem;
   border: 1px solid var(--line);
@@ -676,6 +677,39 @@ h1 {
   padding: 0 1.35rem;
 }
 
+.meal-periods {
+  display: grid;
+  gap: 0;
+}
+
+.meal-period {
+  padding: 1.15rem 0 0;
+}
+
+.meal-period + .meal-period {
+  border-top: 1px solid var(--line);
+}
+
+.meal-period-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 1.35rem;
+}
+
+.meal-period-heading h4 {
+  margin: 0;
+  color: var(--day-color);
+  font-size: 1rem;
+}
+
+.meal-period-heading span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
 .meal-card {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -689,7 +723,13 @@ h1 {
 }
 
 .meal-type {
-  display: inline-block;
+  color: var(--day-color);
+}
+
+.meal-labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
   margin-bottom: 0.45rem;
 }
 
@@ -757,6 +797,78 @@ h1 {
 
 .fuel-backup-list {
   padding: 0 1.35rem;
+}
+
+.supply-segment-list {
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.85rem;
+}
+
+.supply-segment {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 0.8rem;
+  background: color-mix(in srgb, var(--panel) 88%, var(--bg));
+}
+
+.supply-segment summary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  gap: 0.75rem;
+  align-items: center;
+  min-height: 3.5rem;
+  padding: 0.65rem 0.8rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.supply-segment summary::-webkit-details-marker {
+  display: none;
+}
+
+.supply-segment summary::after {
+  content: "+";
+  grid-column: 4;
+  color: var(--muted);
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.supply-segment[open] summary::after {
+  content: "−";
+}
+
+.supply-segment[open] summary {
+  border-bottom: 1px solid var(--line);
+}
+
+.supply-code {
+  display: grid;
+  place-items: center;
+  min-width: 2.7rem;
+  min-height: 2.2rem;
+  border-radius: 0.65rem;
+  background: var(--text);
+  color: var(--bg);
+  font-size: 0.9rem;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+}
+
+.supply-segment-title {
+  overflow: hidden;
+  font-size: 0.86rem;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.supply-count {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  white-space: nowrap;
 }
 
 .fuel-backup-card {
