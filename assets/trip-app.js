@@ -52,7 +52,7 @@
       [`${data.days.length} 天 ${overnightStops} 夜`, "行程長度"],
       [`${segmentCount} 段`, "Google Maps 分段"],
       [`${overnightStops} 個住宿城市`, data.days.filter((day) => day.stay && !day.stay.includes("導航")).map((day) => day.stay).join(" · ")],
-      ["沿途錨點", "加油機動判斷"]
+      ["獨立清單", "加油與快速補給"]
     ];
     $("#stats").innerHTML = stats
       .map(([value, label]) => `<div class="stat"><strong>${value}</strong><span>${label}</span></div>`)
@@ -299,8 +299,8 @@
                       <div>
                         <h4>${station.name}</h4>
                         <div class="fuel-tags">
-                          <span>${station.distance}</span>
-                          <span>${station.hours}</span>
+                          ${station.kind ? `<span>${station.kind}</span>` : ""}
+                          ${station.hours ? `<span>${station.hours}</span>` : ""}
                         </div>
                         <p>${station.note}</p>
                       </div>
