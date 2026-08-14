@@ -532,6 +532,82 @@ h1 {
   margin-top: 0.35rem;
 }
 
+.time-checks {
+  padding: 1.35rem clamp(1rem, 3vw, 2rem) 1.5rem;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--day-color) 7%, var(--panel));
+}
+
+.time-checks-heading {
+  display: flex;
+  gap: 1rem;
+  align-items: end;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.time-checks-kicker {
+  color: var(--day-color);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.time-checks-heading h4 {
+  margin: 0.22rem 0 0;
+  font-size: 1.05rem;
+}
+
+.time-checks-heading p {
+  max-width: 34rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.55;
+  text-align: right;
+}
+
+.time-check-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.time-check {
+  min-width: 0;
+  padding: 0.9rem;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--day-color);
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--panel-solid) 84%, transparent);
+}
+
+.time-check time,
+.time-check strong {
+  display: block;
+}
+
+.time-check time {
+  color: var(--day-color);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.time-check strong {
+  margin-top: 0.3rem;
+  font-size: 0.92rem;
+}
+
+.time-check p {
+  margin: 0.45rem 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
 .segments {
   padding: 0 clamp(1rem, 3vw, 2rem) 1rem;
 }
@@ -1161,6 +1237,15 @@ h1 {
   .route-heading {
     align-items: start;
     flex-direction: column;
+  }
+
+  .time-checks-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .time-checks-heading p {
+    text-align: left;
   }
 
   .checklist-grid,

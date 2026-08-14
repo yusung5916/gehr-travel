@@ -115,6 +115,30 @@
                 <div class="fact"><span>住宿</span><strong>${day.stay}</strong></div>
               </div>
             </div>
+            ${Array.isArray(day.timeChecks) && day.timeChecks.length
+              ? `<section class="time-checks" aria-label="Day ${day.day} 時間檢查點">
+                  <div class="time-checks-heading">
+                    <div>
+                      <span class="time-checks-kicker">最晚通過時間</span>
+                      <h4>到這裡看一次進度</h4>
+                    </div>
+                    <p>不是預約時刻；提早就照常休息，超過才採右側的縮時動作。</p>
+                  </div>
+                  <ol class="time-check-list">
+                    ${day.timeChecks
+                      .map(
+                        (check) => `<li class="time-check">
+                          <time>${check.time}</time>
+                          <div>
+                            <strong>${check.place}</strong>
+                            <p>${check.action}</p>
+                          </div>
+                        </li>`
+                      )
+                      .join("")}
+                  </ol>
+                </section>`
+              : ""}
             <div class="segments">
               ${day.segments
                 .map(
