@@ -297,6 +297,32 @@
     updateProgress();
   }
 
+  function renderControlLinks() {
+    const container = $("#control-links");
+    if (!container || !Array.isArray(data.roadControlLinks) || !data.roadControlLinks.length) return;
+
+    container.innerHTML = `
+      <div class="control-links-heading">
+        <div>
+          <span>Official road status</span>
+          <h3>官方路況與管制查詢</h3>
+        </div>
+        <p>省道先查公路局 168；縣道、聯絡道與災害封路再查地方政府及 NCDR。</p>
+      </div>
+      <div class="control-link-grid">
+        ${data.roadControlLinks
+          .map(
+            (item) => `<a class="control-link-card" href="${item.url}" target="_blank" rel="noopener noreferrer">
+              <span>${item.scope}</span>
+              <h4>${item.title}<span aria-hidden="true"> ↗</span></h4>
+              <strong>${item.routes}</strong>
+              <p>${item.note}</p>
+            </a>`
+          )
+          .join("")}
+      </div>`;
+  }
+
   function renderOpenQuestions() {
     $("#open-questions").innerHTML = data.openQuestions.map((item) => `<li>${item}</li>`).join("");
   }
@@ -482,6 +508,7 @@
   renderMealOptions();
   renderFuelBackups();
   renderChecklist();
+  renderControlLinks();
   renderOpenQuestions();
   renderReferences();
   setupTheme();
