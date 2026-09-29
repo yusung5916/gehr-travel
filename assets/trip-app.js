@@ -14,10 +14,11 @@
   let toastTimer;
 
   function mapUrl(segment) {
+    const lodgingPoint = (night) => data.lodgings[night].coordinates.join(",");
     const params = new URLSearchParams({
       api: "1",
-      origin: segment.origin,
-      destination: segment.destination,
+      origin: segment.originLodging ? lodgingPoint(segment.originLodging) : segment.origin,
+      destination: segment.destinationLodging ? lodgingPoint(segment.destinationLodging) : segment.destination,
       travelmode: "two-wheeler"
     });
     if (segment.via.length) params.set("waypoints", segment.via.join("|"));
@@ -47,16 +48,25 @@
     $("#footer-title").textContent = data.meta.title;
 
     const segmentCount = data.days.reduce((sum, day) => sum + day.segments.length, 0);
-    const overnightStops = data.days.filter((day) => day.stay && !day.stay.includes("導航")).length;
+    const overnightDays = data.days.filter((day) => day.lodgingNight);
+    const overnightStops = overnightDays.length;
     const stats = [
       [`${data.days.length} 天 ${overnightStops} 夜`, "行程長度"],
       [`${segmentCount} 段`, "Google Maps 分段"],
-      [`${overnightStops} 個住宿城市`, data.days.filter((day) => day.stay && !day.stay.includes("導航")).map((day) => day.stay).join(" · ")],
+      [`${overnightStops} 個住宿點`, overnightDays.map((day) => day.stay).join(" · ")],
       ["獨立清單", "加油與快速補給"]
     ];
     $("#stats").innerHTML = stats
       .map(([value, label]) => `<div class="stat"><strong>${value}</strong><span>${label}</span></div>`)
       .join("");
+  }
+
+  function renderRouteAlert() {
+    const alert = data.routeAlert;
+    const container = $("#route-alert");
+    if (!alert || !container) return;
+    container.hidden = false;
+    container.innerHTML = `<strong>${alert.title}</strong><p>${alert.text}</p><a href="${alert.url}" target="_blank" rel="noopener noreferrer">查看公路局公告 ↗</a><small>查證 ${alert.checked}；出發前須重查</small>`;
   }
 
   function renderPrinciples() {
@@ -112,7 +122,7 @@
                 <div class="fact"><span>建議出發</span><strong>${day.departure}</strong></div>
                 <div class="fact"><span>預估抵達</span><strong>${day.arrival}</strong></div>
                 <div class="fact"><span>含休息</span><strong>${day.duration}</strong></div>
-                <div class="fact"><span>住宿</span><strong>${day.stay}</strong></div>
+                <div class="fact"><span>${day.lodgingNight ? "住宿" : "終點"}</span><strong>${day.stay}</strong>${day.lodgingNight ? `<a class="lodging-link" href="${data.lodgings[day.lodgingNight].mapsUrl}" target="_blank" rel="noopener noreferrer">查看旅宿位置 ↗</a>` : ""}</div>
               </div>
             </div>
             ${Array.isArray(day.timeChecks) && day.timeChecks.length
@@ -122,7 +132,7 @@
                       <span class="time-checks-kicker">最晚通過時間</span>
                       <h4>到這裡看一次進度</h4>
                     </div>
-                    <p>不是預約時刻；提早就照常休息，超過才採右側的縮時動作。</p>
+                    <p>${day.timeChecksNote || "不是預約時刻；提早就照常休息，超過才採右側的縮時動作。"}</p>
                   </div>
                   <ol class="time-check-list">
                     ${day.timeChecks
@@ -151,6 +161,7 @@
                           <span class="segment-source">${segment.basis}</span>
                         </div>
                         <p>${segment.note}</p>
+                        ${segment.walkUrl ? `<a class="segment-walk-link" href="${segment.walkUrl}" target="_blank" rel="noopener noreferrer">查看前往燈塔的步行路線 ↗</a>` : ""}
                       </div>
                       <a class="map-button" href="${mapUrl(segment)}" target="_blank" rel="noopener noreferrer">
                         開啟導航 <span aria-hidden="true">↗</span>
@@ -220,6 +231,7 @@
       }).addTo(layer);
 
       day.mapPoints.forEach(([lat, lng, name]) => {
+        const lodging = Object.values(data.lodgings).find((place) => place.coordinates[0] === lat && place.coordinates[1] === lng);
         const icon = L.divIcon({
           className: "",
           html: `<div class="route-marker" style="--marker-color:${day.color}"></div>`,
@@ -227,7 +239,7 @@
           iconAnchor: [7, 7]
         });
         L.marker([lat, lng], { icon })
-          .bindPopup(`<strong>Day ${day.day}｜${name}</strong><br>${day.route}`)
+          .bindPopup(`<strong>Day ${day.day}｜${name}</strong><br>${day.route}${lodging ? `<br><a href="${lodging.mapsUrl}" target="_blank" rel="noopener noreferrer">查看旅宿位置 ↗</a>` : ""}`)
           .addTo(layer);
       });
 
@@ -502,6 +514,7 @@
   }
 
   renderMeta();
+  renderRouteAlert();
   renderPrinciples();
   renderRouteMap();
   renderDays();

@@ -232,6 +232,20 @@ h1 {
   line-height: 1.8;
 }
 
+.route-alert {
+  max-width: 68ch;
+  margin-top: 1.5rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid rgba(242, 166, 90, 0.5);
+  border-radius: 14px;
+  background: var(--accent-soft);
+  line-height: 1.65;
+}
+
+.route-alert p { margin: 0.4rem 0; }
+.route-alert a { color: var(--accent); font-weight: 800; }
+.route-alert small { display: block; margin-top: 0.5rem; color: var(--muted); }
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -530,6 +544,26 @@ h1 {
 
 .fact strong {
   margin-top: 0.35rem;
+}
+
+.lodging-link {
+  display: inline-block;
+  margin-top: 0.6rem;
+  color: var(--day-color);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.lodging-link:hover,
+.lodging-link:focus-visible { text-decoration: underline; }
+
+.segment-walk-link {
+  display: inline-block;
+  margin-top: 0.55rem;
+  color: var(--day-color);
+  font-size: 0.82rem;
+  font-weight: 800;
 }
 
 .time-checks {

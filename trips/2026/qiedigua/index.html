@@ -46,6 +46,7 @@
           <h1 id="hero-title"></h1>
           <p class="hero-date" id="trip-date"></p>
           <p class="hero-note" id="trip-note"></p>
+          <aside class="route-alert" id="route-alert" aria-label="重要路況提醒" hidden></aside>
           <div class="hero-actions">
             <a class="button button-primary" href="#route">查看四天路線</a>
             <button class="button button-ghost" id="copy-summary" type="button">複製行程摘要</button>
@@ -69,7 +70,7 @@
             <p class="section-kicker">Route overview</p>
             <h2 id="map-title">沿著台灣走完四天</h2>
           </div>
-          <p>這張圖用來掌握全程方向；實際騎乘仍以每日分段導航和當日路況為準。</p>
+          <p>這張圖以節點直線示意全程方向及住宿落點；實際道路以每日分段導航和當日路況為準。</p>
         </div>
         <div class="map-toolbar" id="map-toolbar" aria-label="切換每日路線"></div>
         <div class="map-frame">
@@ -84,7 +85,7 @@
             <p class="section-kicker">Four days, one route</p>
             <h2 id="route-title">每日路線與導航</h2>
           </div>
-          <p>導航按鈕會開啟 Google Maps 機車路線。出發前請拉遠檢查紫色路線是否留在指定道路。</p>
+          <p>導航按鈕會開啟 Google Maps 機車路線。出發前請確認機車模式與途經點；Google 可能因路況重新選路。</p>
         </div>
         <div class="day-tabs" id="day-tabs" role="tablist" aria-label="選擇行程日"></div>
         <div id="day-panels"></div>
