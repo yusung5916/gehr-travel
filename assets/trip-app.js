@@ -81,6 +81,23 @@
       .join("");
   }
 
+  function segmentCard(segment) {
+    return `<div class="segment">
+      <span class="segment-code">${segment.code}</span>
+      <div>
+        <div class="segment-meta">
+          <h4>${segment.title}</h4>
+          <span class="segment-source">${segment.basis}</span>
+        </div>
+        <p>${segment.note}</p>
+        ${segment.walkUrl ? `<a class="segment-walk-link" href="${segment.walkUrl}" target="_blank" rel="noopener noreferrer">查看前往燈塔的步行路線 ↗</a>` : ""}
+      </div>
+      <a class="map-button" href="${mapUrl(segment)}" target="_blank" rel="noopener noreferrer">
+        開啟導航 <span aria-hidden="true">↗</span>
+      </a>
+    </div>`;
+  }
+
   function renderDays() {
     const tabs = $("#day-tabs");
     const panels = $("#day-panels");
@@ -149,27 +166,18 @@
                   </ol>
                 </section>`
               : ""}
-            <div class="segments">
-              ${day.segments
-                .map(
-                  (segment) => `
-                    <div class="segment">
-                      <span class="segment-code">${segment.code}</span>
-                      <div>
-                        <div class="segment-meta">
-                          <h4>${segment.title}</h4>
-                          <span class="segment-source">${segment.basis}</span>
-                        </div>
-                        <p>${segment.note}</p>
-                        ${segment.walkUrl ? `<a class="segment-walk-link" href="${segment.walkUrl}" target="_blank" rel="noopener noreferrer">查看前往燈塔的步行路線 ↗</a>` : ""}
-                      </div>
-                      <a class="map-button" href="${mapUrl(segment)}" target="_blank" rel="noopener noreferrer">
-                        開啟導航 <span aria-hidden="true">↗</span>
-                      </a>
-                    </div>`
-                )
-                .join("")}
-            </div>
+            <div class="segments">${day.segments.map(segmentCard).join("")}</div>
+            ${day.alternative
+              ? `<section class="alternative-route" id="${day.id}-alternative" aria-label="Day ${day.day} 替代路線">
+                  <div class="alternative-heading">
+                    <span class="time-checks-kicker">替代路線 · 依當日路況選用</span>
+                    <h4>${day.alternative.title}</h4>
+                    <p>${day.alternative.note}</p>
+                    <p class="alternative-estimate">${day.alternative.estimate}</p>
+                  </div>
+                  <div class="segments">${day.alternative.segments.map(segmentCard).join("")}</div>
+                </section>`
+              : ""}
           </article>`
       )
       .join("");
@@ -257,6 +265,42 @@
         button.setAttribute("aria-pressed", String(!active));
       });
       toolbar.appendChild(button);
+
+      if (day.alternative) {
+        const alternative = day.alternative;
+        const alternativeLayer = L.layerGroup();
+        const alternativePoints = alternative.mapPoints.map(([lat, lng]) => [lat, lng]);
+        L.polyline(alternativePoints, {
+          color: day.color,
+          weight: 4,
+          opacity: 0.78,
+          dashArray: "3 9",
+          lineCap: "round"
+        }).addTo(alternativeLayer);
+        alternative.mapPoints.forEach(([lat, lng, name]) => {
+          L.circleMarker([lat, lng], {
+            radius: 5,
+            color: day.color,
+            fillColor: day.color,
+            fillOpacity: 0.8
+          }).bindPopup(`<strong>Day ${day.day} 備案｜${name}</strong><br>${alternative.title}`).addTo(alternativeLayer);
+        });
+        const alternativeButton = document.createElement("button");
+        alternativeButton.type = "button";
+        alternativeButton.className = "map-toggle";
+        alternativeButton.style.setProperty("--day-color", day.color);
+        alternativeButton.setAttribute("aria-pressed", "false");
+        alternativeButton.innerHTML = `<i aria-hidden="true"></i><span>Day ${day.day} · 北宜備案</span>`;
+        alternativeButton.addEventListener("click", () => {
+          const active = map.hasLayer(alternativeLayer);
+          if (active) map.removeLayer(alternativeLayer);
+          else alternativeLayer.addTo(map);
+          alternativeButton.classList.toggle("active", !active);
+          alternativeButton.setAttribute("aria-pressed", String(!active));
+          if (!active) map.fitBounds(alternativePoints, { padding: [28, 28] });
+        });
+        toolbar.appendChild(alternativeButton);
+      }
     });
 
     map.fitBounds(allPoints, { padding: [28, 28] });
