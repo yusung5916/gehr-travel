@@ -174,6 +174,7 @@
                     <h4>${day.alternative.title}</h4>
                     <p>${day.alternative.note}</p>
                     <p class="alternative-estimate">${day.alternative.estimate}</p>
+                    ${day.alternative.controlUrl ? `<a class="segment-walk-link" href="${day.alternative.controlUrl}" target="_blank" rel="noopener noreferrer">查看警廣路況 ↗</a>` : ""}
                   </div>
                   <div class="segments">${day.alternative.segments.map(segmentCard).join("")}</div>
                 </section>`
