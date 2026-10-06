@@ -107,7 +107,7 @@ const tripData = {
           destination: "巴陵大橋",
           via: ["復興橋"],
           basis: "機車正統路線",
-          note: "沿台7北橫進入巴陵；出發前核對大曼段管制。"
+          note: "沿台7北橫進入巴陵；大曼49.8K在巴陵大橋之後的下一段1C。"
         },
         {
           code: "1C",
@@ -116,7 +116,7 @@ const tripData = {
           destination: "7-ELEVEN 南山門市 267宜蘭縣大同鄉南山村泰雅路七段220號",
           via: ["台7線77公里處"],
           basis: "機車正統路線",
-          note: "依機車軌跡續走台7接台7甲；南山門市位在主線旁，可作午餐與時間檢查點。原案 12:30 前離開只在大曼恢復正常通行時適用。"
+          note: "先經台7大曼49.8K，再依機車軌跡續走台7接台7甲；南山門市位在主線旁，可作午餐與時間檢查點。原案 12:30 前離開只在大曼恢復正常通行時適用。"
         },
         {
           code: "1D",
@@ -1070,9 +1070,9 @@ const tripData = {
     {
       title: "公路局｜台7大曼便道",
       url: "https://thbu1.thb.gov.tw/News_Content_table.aspx?n=4217&s=305214",
-      mapUrl: "https://www.google.com/maps/dir/?api=1&origin=%E5%8F%B0%E7%81%A3%E4%B8%AD%E6%B2%B9%20%E5%BE%A9%E8%88%88%E7%AB%99%20%E6%A1%83%E5%9C%92%E5%B8%82%E5%BE%A9%E8%88%88%E5%8D%80%E4%B8%AD%E6%AD%A3%E8%B7%AF267%E8%99%9F&destination=%E5%B7%B4%E9%99%B5%E5%A4%A7%E6%A9%8B&travelmode=two-wheeler",
-      scope: "Day 1 原案 1B，北宜備案避開",
-      routes: "台7 復興→巴陵，49.8K 大曼",
+      mapUrl: "https://www.google.com/maps/dir/?api=1&origin=%E5%B7%B4%E9%99%B5%E5%A4%A7%E6%A9%8B&destination=%E6%98%8E%E6%B1%A0%E5%9C%8B%E5%AE%B6%E6%A3%AE%E6%9E%97%E9%81%8A%E6%A8%82%E5%8D%80&travelmode=two-wheeler",
+      scope: "Day 1 原案 1C，北宜備案避開",
+      routes: "台7 巴陵大橋→明池，49.8K 大曼",
       note: "目前公告每日13:00–14:00有條件放行小型車；機車資格未明，且公告期限只列到10/16。10/31的實際通行方式須重查。"
     },
     {
