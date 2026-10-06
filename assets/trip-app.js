@@ -174,7 +174,7 @@
                     <h4>${day.alternative.title}</h4>
                     <p>${day.alternative.note}</p>
                     <p class="alternative-estimate">${day.alternative.estimate}</p>
-                    ${day.alternative.controlUrl ? `<a class="segment-walk-link" href="${day.alternative.controlUrl}" target="_blank" rel="noopener noreferrer">查看警廣路況 ↗</a>` : ""}
+                    ${day.alternative.controlUrl ? `<a class="segment-walk-link" href="${day.alternative.controlUrl}" target="_blank" rel="noopener noreferrer">${day.alternative.controlLabel || "查看警廣路況"} ↗</a>` : ""}
                   </div>
                   <div class="segments">${day.alternative.segments.map(segmentCard).join("")}</div>
                 </section>`
@@ -291,7 +291,7 @@
         alternativeButton.className = "map-toggle";
         alternativeButton.style.setProperty("--day-color", day.color);
         alternativeButton.setAttribute("aria-pressed", "false");
-        alternativeButton.innerHTML = `<i aria-hidden="true"></i><span>Day ${day.day} · 北宜備案</span>`;
+        alternativeButton.innerHTML = `<i aria-hidden="true"></i><span>Day ${day.day} · ${alternative.mapLabel || "備案"}</span>`;
         alternativeButton.addEventListener("click", () => {
           const active = map.hasLayer(alternativeLayer);
           if (active) map.removeLayer(alternativeLayer);
