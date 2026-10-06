@@ -369,12 +369,16 @@
       <div class="control-link-grid">
         ${data.roadControlLinks
           .map(
-            (item) => `<a class="control-link-card" href="${item.url}" target="_blank" rel="noopener noreferrer">
+            (item) => `<article class="control-link-card">
               <span>${item.scope}</span>
-              <h4>${item.title}<span aria-hidden="true"> ↗</span></h4>
+              <h4>${item.title}</h4>
               <strong>${item.routes}</strong>
               <p>${item.note}</p>
-            </a>`
+              <div class="control-link-actions">
+                ${item.mapUrl ? `<a href="${item.mapUrl}" target="_blank" rel="noopener noreferrer">看地圖 ↗</a>` : ""}
+                <a href="${item.url}" target="_blank" rel="noopener noreferrer">看公告 ↗</a>
+              </div>
+            </article>`
           )
           .join("")}
       </div>`;

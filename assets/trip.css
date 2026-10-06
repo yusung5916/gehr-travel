@@ -1144,12 +1144,11 @@ h1 {
   border: 1px solid var(--line);
   border-radius: 0.8rem;
   color: var(--text);
-  text-decoration: none;
   background: color-mix(in srgb, var(--panel-solid) 84%, transparent);
 }
 
 .control-link-card:hover,
-.control-link-card:focus-visible {
+.control-link-card:focus-within {
   border-color: var(--accent);
   background: color-mix(in srgb, var(--accent) 9%, var(--panel-solid));
 }
@@ -1178,6 +1177,21 @@ h1 {
   color: var(--muted);
   font-size: 0.78rem;
   line-height: 1.55;
+}
+
+.control-link-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.8rem;
+}
+
+.control-link-actions a {
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 .open-section {

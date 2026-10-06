@@ -44,8 +44,8 @@ const tripData = {
 
   routeAlert: {
     title: "Day 1 北橫大曼段限時放行",
-    checked: "2026-10-05",
-    text: "截至10/5，公路局台7線49.8K大曼便道方案仍為每日13:00–14:00視天候與邊坡狀況放行小型車輛，尚未查到恢復全天通行的新公告；機車能否通行未獲明確確認。此資訊不能視為10/31當天路況。若仍限時放行，Day 1 改走下方北宜—台7—台7甲備案；出發前須確認大曼、台7甲、台8與台14甲通阻。",
+    checked: "2026-10-06",
+    text: "截至10/6，公路局台7線49.8K大曼便道公告仍為每日13:00–14:00視天候與邊坡狀況放行小型車輛，機車能否通行未獲明確確認；公告頁期限只列到10/16，不能推定10/31仍照此放行。若出發前未確認已恢復全天且機車可通行，Day 1 採下方北宜—台7—台7甲備案；出發前也須確認台7甲、台8與台14甲通阻。",
     url: "https://thbu1.thb.gov.tw/News_Content_table.aspx?n=4217&s=305214"
   },
 
@@ -1068,11 +1068,36 @@ const tripData = {
       note: "主要入口。用道路編號查看施工、封閉、放行時段、即時影像與重大訊息。"
     },
     {
-      title: "警廣｜台7甲思源至梨山、台8松泉崗施工",
+      title: "公路局｜台7大曼便道",
+      url: "https://thbu1.thb.gov.tw/News_Content_table.aspx?n=4217&s=305214",
+      mapUrl: "https://www.google.com/maps/dir/?api=1&origin=%E5%8F%B0%E7%81%A3%E4%B8%AD%E6%B2%B9%20%E5%BE%A9%E8%88%88%E7%AB%99%20%E6%A1%83%E5%9C%92%E5%B8%82%E5%BE%A9%E8%88%88%E5%8D%80%E4%B8%AD%E6%AD%A3%E8%B7%AF267%E8%99%9F&destination=%E5%B7%B4%E9%99%B5%E5%A4%A7%E6%A9%8B&travelmode=two-wheeler",
+      scope: "Day 1 原案 1B，北宜備案避開",
+      routes: "台7 復興→巴陵，49.8K 大曼",
+      note: "目前公告每日13:00–14:00有條件放行小型車；機車資格未明，且公告期限只列到10/16。10/31的實際通行方式須重查。"
+    },
+    {
+      title: "警廣｜台7甲思源至梨山施工",
       url: "https://www.pbs.gov.tw/cht/index.php?code=list&gaa=&gcy=%E8%87%BA%E5%8C%97%E5%B8%82&ids=30",
+      mapUrl: "https://www.google.com/maps/dir/?api=1&origin=%E6%80%9D%E6%BA%90%E5%9F%A1%E5%8F%A3&destination=%E5%8F%B0%E7%81%A3%E4%B8%AD%E6%B2%B9%20%E6%A2%A8%E5%B1%B1%E7%AB%99&travelmode=two-wheeler",
       scope: "Day 1 原案與北宜備案共同路段",
-      routes: "台7甲 45–74K、52.4K；台8 107.67K",
-      note: "台7甲45–74K至11/10有日間機動施工、52.4K香菇橋至11/30單線雙向；台8松泉崗至2027/3/8每日08:30–16:30單線雙向機動管制。出發前重查是否更新。"
+      routes: "台7甲 思源→梨山，45–74K",
+      note: "至11/10每日08:00–17:00依施工位置現況管制或封閉車道；不是整段全天封路，也沒有固定放行分鐘。"
+    },
+    {
+      title: "觀光署｜台7甲香菇橋單線通行",
+      url: "https://www.trimt-nsa.gov.tw/zh-tw/news/19406/",
+      mapUrl: "https://www.google.com/maps/dir/?api=1&origin=%E6%80%9D%E6%BA%90%E5%9F%A1%E5%8F%A3&destination=%E5%8F%B0%E7%81%A3%E4%B8%AD%E6%B2%B9%20%E6%A2%A8%E5%B1%B1%E7%AB%99&travelmode=two-wheeler",
+      scope: "Day 1 原案與北宜備案共同路段",
+      routes: "台7甲 52.4K 香菇橋",
+      note: "至11/30施工期間縮為單線雙向通行，位在思源往梨山路段；無固定整點放行時刻。"
+    },
+    {
+      title: "觀光署｜台8松泉崗施工",
+      url: "https://www.trimt-nsa.gov.tw/zh-tw/news/19406/",
+      mapUrl: "https://www.google.com/maps/dir/?api=1&origin=%E5%8F%B0%E7%81%A3%E4%B8%AD%E6%B2%B9%20%E6%A2%A8%E5%B1%B1%E7%AB%99&destination=%E5%A4%A7%E7%A6%B9%E5%B6%BA&travelmode=two-wheeler",
+      scope: "Day 1 原案與北宜備案共同路段",
+      routes: "台8 梨山→大禹嶺，107.67K 松泉崗",
+      note: "至2027/3/8每日08:30–16:30依現況單線雙向機動管制；無固定放行分鐘。"
     },
     {
       title: "公路局｜11/1 日月潭環湖馬拉松交管",
@@ -1084,6 +1109,7 @@ const tripData = {
     {
       title: "玉山國家公園｜西北園區行宿資訊",
       url: "https://www.ysnp.gov.tw/RecreationArea/1fbfec62-e8ce-4916-a902-a6c28c9dd33e?Tab=2",
+      mapUrl: "https://www.google.com/maps/dir/?api=1&origin=%E8%8D%89%E5%9D%AA%E9%A0%AD%E7%AE%A1%E5%88%B6%E5%93%A8&destination=%E5%A1%94%E5%A1%94%E5%8A%A0%E9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83&travelmode=two-wheeler",
       scope: "Day 2 塔塔加",
       routes: "台21 草坪頭—塔塔加",
       note: "核對固定夜間封閉與園區注意事項；目前頁面載明 17:30 至翌日 07:00 封閉，出發前仍以最新公告為準。"
@@ -1091,6 +1117,7 @@ const tripData = {
     {
       title: "公路局｜台27新發大橋施工",
       url: "https://thbu3.thb.gov.tw/News_Content_table.aspx?n=4796&s=282740&sms=13379",
+      mapUrl: "https://www.google.com/maps/dir/?api=1&origin=7-ELEVEN%20%E8%8D%96%E6%BF%83%E9%96%80%E5%B8%82&destination=%E5%85%AD%E9%BE%9C%E5%8D%80%E5%85%AC%E6%89%80&travelmode=two-wheeler",
       scope: "Day 2 荖濃往水門",
       routes: "台27 3K+087–3K+552",
       note: "11/1路線會經過；公告至11/30每日08:00–17:30單線雙向管制，三天以上連假除外。"
@@ -1105,6 +1132,7 @@ const tripData = {
     {
       title: "公路局｜台9馬太鞍溪鋼便橋施工",
       url: "https://www.thb.gov.tw/News_Content_Table.aspx?n=7839&s=305727",
+      mapUrl: "https://www.google.com/maps/search/?api=1&query=%E9%A6%AC%E5%A4%AA%E9%9E%8D%E6%BA%AA%E9%8B%BC%E4%BE%BF%E6%A9%8B",
       scope: "Day 4 光復往花蓮",
       routes: "台9 馬太鞍溪鋼便橋",
       note: "09/30–12/25每日08:00–17:00橋梁復建機動交管，通過時依現場人員指揮。"
@@ -1112,6 +1140,7 @@ const tripData = {
     {
       title: "公路局｜台9丁九宮里號誌管制",
       url: "https://thbu4.thb.gov.tw/News_Content_table.aspx?n=5066&s=304909&sms=13366",
+      mapUrl: "https://www.google.com/maps/dir/?api=1&origin=%E6%9D%B1%E6%BE%B3%E8%BB%8A%E7%AB%99&destination=%E8%98%87%E6%BE%B3%E7%81%AB%E8%BB%8A%E7%AB%99&travelmode=two-wheeler",
       scope: "Day 4 蘇花",
       routes: "台9丁 9.4K",
       note: "至11/30全日單線雙向號誌管制，假日不施工但號誌仍運作；11/3通過時預留停等。"
