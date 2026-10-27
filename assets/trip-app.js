@@ -15,9 +15,11 @@
 
   function mapUrl(segment) {
     const lodgingPoint = (night) => data.lodgings[night].coordinates.join(",");
+    const meetingOrigin = data.meeting?.coordinates?.join(",") || data.meeting?.navigationQuery;
+    if (segment.originMeeting && !meetingOrigin) return null;
     const params = new URLSearchParams({
       api: "1",
-      origin: segment.originLodging ? lodgingPoint(segment.originLodging) : segment.origin,
+      origin: segment.originMeeting ? meetingOrigin : segment.originLodging ? lodgingPoint(segment.originLodging) : segment.origin,
       destination: segment.destinationLodging ? lodgingPoint(segment.destinationLodging) : segment.destination,
       travelmode: "two-wheeler"
     });
@@ -66,7 +68,7 @@
     const container = $("#route-alert");
     if (!alert || !container) return;
     container.hidden = false;
-    container.innerHTML = `<strong>${alert.title}</strong><p>${alert.text}</p><a href="${alert.url}" target="_blank" rel="noopener noreferrer">查看公路局公告 ↗</a><small>查證 ${alert.checked}；出發前須重查</small>`;
+    container.innerHTML = `<strong>${alert.title}</strong><p>${alert.text}</p><a href="${alert.url}" target="_blank" rel="noopener noreferrer">${alert.linkLabel || "查看公路局公告"} ↗</a><small>${alert.checkedLabel || `查證 ${alert.checked}；出發前須重查`}</small>`;
   }
 
   function renderPrinciples() {
@@ -81,7 +83,8 @@
       .join("");
   }
 
-  function segmentCard(segment) {
+  function segmentCard(segment, historical = false) {
+    const navigationUrl = historical ? null : mapUrl(segment);
     return `<div class="segment">
       <span class="segment-code">${segment.code}</span>
       <div>
@@ -92,9 +95,9 @@
         <p>${segment.note}</p>
         ${segment.walkUrl ? `<a class="segment-walk-link" href="${segment.walkUrl}" target="_blank" rel="noopener noreferrer">查看前往燈塔的步行路線 ↗</a>` : ""}
       </div>
-      <a class="map-button" href="${mapUrl(segment)}" target="_blank" rel="noopener noreferrer">
-        開啟導航 <span aria-hidden="true">↗</span>
-      </a>
+      ${navigationUrl
+        ? `<a class="map-button" href="${navigationUrl}" target="_blank" rel="noopener noreferrer">開啟導航 <span aria-hidden="true">↗</span></a>`
+        : `<span class="map-button navigation-pending">${historical ? "歷史導航停用" : "起點待確認"}</span>`}
     </div>`;
   }
 
@@ -142,11 +145,25 @@
                 <div class="fact"><span>${day.lodgingNight ? "住宿" : "終點"}</span><strong>${day.stay}</strong>${day.lodgingNight ? `<a class="lodging-link" href="${data.lodgings[day.lodgingNight].mapsUrl}" target="_blank" rel="noopener noreferrer">查看旅宿位置 ↗</a>` : ""}</div>
               </div>
             </div>
+            ${day.meeting && data.meeting
+              ? `<aside class="meeting-point" aria-label="Day 1 集合資訊">
+                  <div><strong>${data.meeting.name}</strong>${data.meeting.address ? `<p>${data.meeting.address}</p>` : ""}<p>${data.meeting.time} 集合 · ${data.meeting.departure} 出發（暫維持）</p><p>${data.meeting.note}${data.meeting.coordinates ? "" : " 地圖暫從坪林起畫；集合點請依上方地址與地圖連結確認。"}</p></div>
+                  <a class="map-button" href="${data.meeting.mapsUrl}" target="_blank" rel="noopener noreferrer">查看集合點 ↗</a>
+                </aside>`
+              : ""}
+            ${day.timingComparison
+              ? `<section class="timing-comparison" aria-label="集合時間比較提案">
+                  <h4>${day.timingComparison.title}</h4><p>${day.timingComparison.note}</p><p>${day.timingComparison.formula}</p>
+                  <p class="timing-table-hint">可左右滑動查看完整比較。</p>
+                  <div class="timing-table-wrap" tabindex="0" role="region" aria-label="左右滑動查看集合時間比較"><table><thead><tr><th scope="col">方案</th><th scope="col">集合／出發</th><th scope="col">至約17:18</th><th scope="col">扣除餐休與緩衝後</th></tr></thead><tbody>${day.timingComparison.scenarios.map((scenario) => `<tr><th scope="row">${scenario.label}</th><td>${scenario.meeting}／${scenario.departure}</td><td>${scenario.budget}</td><td>${scenario.ridingAndWaiting}</td></tr>`).join("")}</tbody></table></div>
+                  <p>${day.timingComparison.waitingNote}</p><p>${day.timingComparison.decision}</p>
+                </section>`
+              : ""}
             ${Array.isArray(day.timeChecks) && day.timeChecks.length
               ? `<section class="time-checks" aria-label="Day ${day.day} 時間檢查點">
                   <div class="time-checks-heading">
                     <div>
-                      <span class="time-checks-kicker">最晚通過時間</span>
+                      <span class="time-checks-kicker">${day.timeChecksLabel || "最晚通過時間"}</span>
                       <h4>到這裡看一次進度</h4>
                     </div>
                     <p>${day.timeChecksNote || "不是預約時刻；提早就照常休息，超過才採右側的縮時動作。"}</p>
@@ -166,18 +183,19 @@
                   </ol>
                 </section>`
               : ""}
-            <div class="segments">${day.segments.map(segmentCard).join("")}</div>
+            <div class="segments">${day.segments.map((segment) => segmentCard(segment)).join("")}</div>
             ${day.alternative
-              ? `<section class="alternative-route" id="${day.id}-alternative" aria-label="Day ${day.day} 替代路線">
+              ? `<${day.alternative.historical ? "details" : "section"} class="alternative-route" id="${day.id}-alternative" aria-label="Day ${day.day} ${day.alternative.historical ? "歷史路線" : "替代路線"}">
+                  ${day.alternative.historical ? `<summary class="historical-summary">${day.alternative.title} · 展開回看</summary>` : ""}
                   <div class="alternative-heading">
-                    <span class="time-checks-kicker">替代路線 · 依當日路況選用</span>
+                    <span class="time-checks-kicker">${day.alternative.historical ? "歷史路線 · 本次不採用" : "替代路線 · 依當日路況選用"}</span>
                     <h4>${day.alternative.title}</h4>
                     <p>${day.alternative.note}</p>
                     <p class="alternative-estimate">${day.alternative.estimate}</p>
                     ${day.alternative.controlUrl ? `<a class="segment-walk-link" href="${day.alternative.controlUrl}" target="_blank" rel="noopener noreferrer">${day.alternative.controlLabel || "查看警廣路況"} ↗</a>` : ""}
                   </div>
-                  <div class="segments">${day.alternative.segments.map(segmentCard).join("")}</div>
-                </section>`
+                  <div class="segments">${day.alternative.segments.map((segment) => segmentCard(segment, day.alternative.historical)).join("")}</div>
+                </${day.alternative.historical ? "details" : "section"}>`
               : ""}
           </article>`
       )
@@ -228,7 +246,10 @@
 
     data.days.forEach((day) => {
       const layer = L.layerGroup().addTo(map);
-      const points = day.mapPoints.map(([lat, lng]) => [lat, lng]);
+      const mapPoints = day.meeting && data.meeting?.coordinates
+        ? [[...data.meeting.coordinates, data.meeting.name], ...day.mapPoints]
+        : day.mapPoints;
+      const points = mapPoints.map(([lat, lng]) => [lat, lng]);
       allPoints.push(...points);
 
       L.polyline(points, {
@@ -239,7 +260,7 @@
         lineCap: "round"
       }).addTo(layer);
 
-      day.mapPoints.forEach(([lat, lng, name]) => {
+      mapPoints.forEach(([lat, lng, name]) => {
         const lodging = Object.values(data.lodgings).find((place) => place.coordinates[0] === lat && place.coordinates[1] === lng);
         const icon = L.divIcon({
           className: "",
@@ -284,7 +305,7 @@
             color: day.color,
             fillColor: day.color,
             fillOpacity: 0.8
-          }).bindPopup(`<strong>Day ${day.day} 備案｜${name}</strong><br>${alternative.title}`).addTo(alternativeLayer);
+          }).bindPopup(`<strong>Day ${day.day} ${alternative.historical ? "歷史路線" : "備案"}｜${name}</strong><br>${alternative.title}`).addTo(alternativeLayer);
         });
         const alternativeButton = document.createElement("button");
         alternativeButton.type = "button";
@@ -542,6 +563,7 @@
     $("#copy-summary").addEventListener("click", async () => {
       const summary = [
         `${data.meta.title}｜${data.meta.dateLabel}`,
+        ...(data.meeting ? [`集合｜${data.meeting.name}${data.meeting.address ? `（${data.meeting.address}）` : ""}｜${data.meeting.time} 集合、${data.meeting.departure} 出發（暫維持）｜${data.meeting.mapsUrl}`] : []),
         ...data.days.map((day) => `Day ${day.day} ${day.date}｜${day.route}｜宿 ${day.stay}`)
       ].join("\n");
       try {

@@ -667,6 +667,31 @@ h1 {
   background: var(--panel);
 }
 
+.meeting-point {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.25rem 0;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+}
+
+.meeting-point > div { flex: 1 1 16rem; }
+.meeting-point p { margin: 0.4rem 0 0; color: var(--muted); line-height: 1.65; }
+.navigation-pending { color: var(--muted); }
+.historical-summary { padding: 1.25rem; cursor: pointer; font-weight: 800; }
+
+.timing-comparison { padding: 1.3rem clamp(1rem, 3vw, 2rem); border-block: 1px solid var(--line); }
+.timing-comparison h4 { margin: 0; }
+.timing-comparison p { color: var(--muted); font-size: 0.88rem; line-height: 1.7; }
+.timing-table-wrap { overflow-x: auto; }
+.timing-comparison table { width: 100%; min-width: 38rem; border-collapse: collapse; font-size: 0.85rem; text-align: left; }
+.timing-comparison th, .timing-comparison td { min-width: 6rem; padding: 0.8rem; border-bottom: 1px solid var(--line); }
+.timing-table-hint { margin-bottom: 0.5rem; }
+
 .alternative-heading {
   padding: 1.3rem clamp(1rem, 3vw, 2rem);
   border-bottom: 1px solid var(--line);
