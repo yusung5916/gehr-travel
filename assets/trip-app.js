@@ -32,6 +32,12 @@
     return `https://www.google.com/maps/search/?${params.toString()}`;
   }
 
+  function meetingSchedule() {
+    return data.meeting.readyBy
+      ? `${data.meeting.readyBy}前集合完畢，${data.meeting.departure}準時出發`
+      : `${data.meeting.time}集合、${data.meeting.departure}出發`;
+  }
+
   function showToast(message) {
     const toast = $("#toast");
     toast.textContent = message;
@@ -147,15 +153,15 @@
             </div>
             ${day.meeting && data.meeting
               ? `<aside class="meeting-point" aria-label="Day 1 集合資訊">
-                  <div><strong>${data.meeting.name}</strong>${data.meeting.address ? `<p>${data.meeting.address}</p>` : ""}<p>${data.meeting.time} 集合 · ${data.meeting.departure} 出發（暫維持）</p><p>${data.meeting.note}${data.meeting.coordinates ? "" : " 地圖暫從坪林起畫；集合點請依上方地址與地圖連結確認。"}</p></div>
+                  <div><strong>${data.meeting.name}</strong>${data.meeting.address ? `<p>${data.meeting.address}</p>` : ""}<p>${meetingSchedule()}</p><p>${data.meeting.note}${data.meeting.coordinates ? "" : " 地圖暫從坪林起畫；集合點請依上方地址與地圖連結確認。"}</p></div>
                   <a class="map-button" href="${data.meeting.mapsUrl}" target="_blank" rel="noopener noreferrer">查看集合點 ↗</a>
                 </aside>`
               : ""}
             ${day.timingComparison
-              ? `<section class="timing-comparison" aria-label="集合時間比較提案">
+              ? `<section class="timing-comparison" aria-label="表定出發時間與時間預算">
                   <h4>${day.timingComparison.title}</h4><p>${day.timingComparison.note}</p><p>${day.timingComparison.formula}</p>
-                  <p class="timing-table-hint">可左右滑動查看完整比較。</p>
-                  <div class="timing-table-wrap" tabindex="0" role="region" aria-label="左右滑動查看集合時間比較"><table><thead><tr><th scope="col">方案</th><th scope="col">集合／出發</th><th scope="col">至約17:18</th><th scope="col">扣除餐休與緩衝後</th></tr></thead><tbody>${day.timingComparison.scenarios.map((scenario) => `<tr><th scope="row">${scenario.label}</th><td>${scenario.meeting}／${scenario.departure}</td><td>${scenario.budget}</td><td>${scenario.ridingAndWaiting}</td></tr>`).join("")}</tbody></table></div>
+                  <p class="timing-table-hint">可左右滑動查看完整時間預算。</p>
+                  <div class="timing-table-wrap" tabindex="0" role="region" aria-label="左右滑動查看時間預算"><table><thead><tr><th scope="col">方案</th><th scope="col">集合／出發</th><th scope="col">至約17:18</th><th scope="col">扣除餐休與緩衝後</th></tr></thead><tbody>${day.timingComparison.scenarios.map((scenario) => `<tr><th scope="row">${scenario.label}</th><td>${scenario.meeting}／${scenario.departure}</td><td>${scenario.budget}</td><td>${scenario.ridingAndWaiting}</td></tr>`).join("")}</tbody></table></div>
                   <p>${day.timingComparison.waitingNote}</p><p>${day.timingComparison.decision}</p>
                 </section>`
               : ""}
@@ -563,7 +569,7 @@
     $("#copy-summary").addEventListener("click", async () => {
       const summary = [
         `${data.meta.title}｜${data.meta.dateLabel}`,
-        ...(data.meeting ? [`集合｜${data.meeting.name}${data.meeting.address ? `（${data.meeting.address}）` : ""}｜${data.meeting.time} 集合、${data.meeting.departure} 出發（暫維持）｜${data.meeting.mapsUrl}`] : []),
+        ...(data.meeting ? [`集合｜${data.meeting.name}${data.meeting.address ? `（${data.meeting.address}）` : ""}｜${meetingSchedule()}｜${data.meeting.mapsUrl}`] : []),
         ...data.days.map((day) => `Day ${day.day} ${day.date}｜${day.route}｜宿 ${day.stay}`)
       ].join("\n");
       try {
