@@ -8,7 +8,7 @@
     <title>2026 切地瓜｜四天三夜騎乘規劃</title>
     <link rel="preconnect" href="https://tile.openstreetmap.org" />
     <link rel="stylesheet" href="../../../assets/vendor/leaflet/leaflet.css" />
-    <link rel="stylesheet" href="../../../assets/trip.css?v=20261030-4" />
+    <link rel="stylesheet" href="../../../assets/trip.css?v=20261030-5" />
   </head>
   <body>
     <a class="skip-link" href="#main">跳到主要內容</a>
@@ -69,19 +69,19 @@
             <p class="section-kicker">Route overview</p>
             <h2 id="map-title">台灣路線與管制地圖</h2>
           </div>
-          <p>OpenStreetMap開放路網＋Valhalla機車路線，不需要Google API Key。點選一天或備案載入道路軌跡；滑入線條或管制清單會變亮，手機點選可保留詳情。</p>
+          <p>開啟時顯示北宜主線，可切換每日路線、北橫與西部備案。滑入路段會高亮，手機點選可查看詳情。</p>
         </div>
         <div class="map-toolbar" id="map-toolbar" aria-label="切換每日路線"></div>
         <p id="map-status" class="map-status" role="status" aria-live="polite">正在載入開放街圖…</p>
         <div class="map-frame">
           <div id="map" role="region" aria-label="2026 切地瓜四天路線互動地圖"></div>
-        </div>
         <aside id="map-selection" class="map-selection" aria-label="選取路段詳情" hidden>
           <button id="map-selection-close" type="button" aria-label="關閉路段詳情">關閉 ×</button>
           <div class="map-selection-copy"></div>
         </aside>
+        </div>
         <div id="map-route-results" aria-label="道路路線載入結果"></div>
-        <p class="data-note">路線由Valhalla依OpenStreetMap與既有途經座標規劃，可能與每日Google Maps導航不同，未核實所有機車限制及即時通阻。新店碧興精確座標仍待確認，北宜圖由坪林開始。公開路線服務有公平使用限制且不保證可用；不會自動重試或背景重算。可匯出軌跡供後續固定保存。</p>
+        <p class="data-note">管制範圍依公里樁估算，請以官方公告與現場指揮為準。新店集合點座標尚待確認，北宜地圖由坪林開始。</p>
         <noscript>互動地圖需要JavaScript；請使用每日路線及官方公告查詢。</noscript>
         <div id="control-details" class="control-details" aria-label="管制圖例與官方公告"></div>
       </section>
@@ -167,11 +167,11 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="route-data.js?v=20261030-4"></script>
-    <script src="../../../assets/trip-app.js?v=20261030-4"></script>
+    <script src="route-data.js?v=20261030-5"></script>
+    <script src="../../../assets/trip-app.js?v=20261030-5"></script>
     <script src="../../../assets/vendor/leaflet/leaflet.js"></script>
-    <script src="../../../assets/route-geometry.js?v=20261030-4"></script>
-    <script src="../../../assets/open-route-client.js?v=20261030-4"></script>
-    <script src="../../../assets/open-route-map.js?v=20261030-4"></script>
+    <script src="../../../assets/route-geometry.js?v=20261030-5"></script>
+    <script src="../../../assets/open-route-client.js?v=20261030-5"></script>
+    <script src="../../../assets/open-route-map.js?v=20261030-5"></script>
   </body>
 </html>

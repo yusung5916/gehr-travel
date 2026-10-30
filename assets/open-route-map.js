@@ -28,7 +28,7 @@
     for(const [id,card] of cards) {
       const matching=models.filter(m=>m.controlId===id && visible(m));
       card.classList.toggle('is-highlighted',matching.some(m=>m===selected || m===hovered));
-      card.querySelector('.control-location-status').textContent=matching.length ? '已對齊目前顯示的道路路線 · '+card._item.geometry.note : '尚未載入對應路線／未匹配樁位；不繪製推測直線。';
+      card.querySelector('.control-location-status').textContent=matching.length ? '範圍依公里樁估算 · '+card._item.geometry.note : '此工區位置尚未在目前路線核實，請查官方公告。';
     }
   }
   function clear(){selected=null;hovered=null;info.hidden=true;repaint();}
@@ -60,10 +60,10 @@
     }
   }
   function renderControls() {
-    list.innerHTML=`<p>橙：機動管制 · 紅：限時通行／夜間封閉 · 紫：待複核。管制粗線截取自相同道路路徑；小數里程依參考樁位推估，非測量界線。未匹配工區只保留清單。官方公告核對 ${esc(data.controlMap.checked)}。</p>`;
+    list.innerHTML=`<p>橙：機動管制 · 紅：限時通行／夜間封閉 · 紫：待複核。公告核對 ${esc(data.controlMap.checked)}。</p>`;
     for(const item of data.controlMap.sections) {
       const card=document.createElement('details');card.className='map-control-card';card._item=item;
-      card.innerHTML=`<summary>${esc(item.title)}<span>${esc(item.time)}</span></summary><p class="control-location-status">尚未載入對應路線／未匹配樁位；不繪製推測直線。</p><p>${esc(item.detail)}</p>${sourceLinks(item)}`;
+      card.innerHTML=`<summary>${esc(item.title)}<span>${esc(item.time)}</span></summary><p class="control-location-status">此工區位置尚未在目前路線核實，請查官方公告。</p><p>${esc(item.detail)}</p>${sourceLinks(item)}`;
       const activate=pin=>{const m=models.find(m=>m.controlId===item.id && visible(m));if(!m)return;if(pin)selected=m;else hovered=m;repaint();show(m);};
       card.addEventListener('mouseenter',()=>activate(false));
       card.addEventListener('mouseleave',()=>{hovered=null;repaint();if(selected)show(selected);else info.hidden=true;});
@@ -90,7 +90,7 @@
   // Same-origin OSM snapshots can replace network routing once the owner saves an export.
   const snapshots=fetch('road-routes.geojson',{credentials:'same-origin'}).then(r=>r.ok ? r.json() : {features:[]}).catch(()=>({features:[]}));
   function addRoadPart(group,part,index,total,source) {
-    const html=`<strong>${esc(group.label)}｜第${index+1}/${total}段</strong><p>道路長度約${part.distance.toFixed(1)}公里 · ${esc(source)}</p><p>${esc(group.note)}</p><p>開放路網規劃，非Google導航，未核實所有機車限制與當日通阻；餐休、泡湯與管制停等仍依每日檢核點安排。</p>`;
+    const html=`<strong>${esc(group.label)}｜第${index+1}/${total}段</strong><p>道路長度約${part.distance.toFixed(1)}公里</p><p>${esc(group.note)}</p>`;
     addLine(group,part.path,{title:group.label,html,color:group.color});
   }
   async function load(group) {
@@ -109,7 +109,7 @@
         const batches=client.chunks(group.nodes);
         for(let i=0;i<batches.length;i++) {
           if(group.done.has(i))continue;
-          setStatus(`正在載入${group.label}道路路線（${i+1}/${batches.length}）；免金鑰，不使用Google API。`);
+          setStatus(`正在載入${group.label}（${i+1}/${batches.length}）…`);
           const payload=client.request(batches[i]);
           const url=new URL('https://valhalla1.openstreetmap.de/route');url.searchParams.set('json',JSON.stringify(payload));
           const response=await queuedFetch(url.toString(),{headers:{'X-Client-Id':'gehr-travel-personal-itinerary'}});
@@ -128,14 +128,15 @@
         group.parts=group.partsByBatch.flat();group.complete=true;
       }
       const path=group.parts.flatMap(p=>p.path);attachControls(group,path);
-      group.exportButton.hidden=false;
+      group.exportButton.hidden=!new URLSearchParams(location.search).has('export');
       group.summary.textContent=`${group.label}｜道路路線已載入 · ${group.parts.reduce((n,p)=>n+p.distance,0).toFixed(1)}公里`;
-      setStatus(`${group.label}已載入。滑入或點擊線條查看；重複切換不重新查詢。${group.partialStart ? ' 新店集合點座標未核實，地圖由坪林起算；新店→坪林請用每日分段導航。' : ''}`);
+      setStatus(`${group.label}已載入。滑入或點擊路段查看詳情。${group.partialStart ? ' 新店集合點座標未核實，地圖由坪林起算；新店→坪林請用每日分段導航。' : ''}`);
     }catch(error){
       group.failed=true;group.errors.hidden=false;
       const code=['RATE_LIMIT','NO_ROUTE','INVALID_PATH','WAYPOINT_MISMATCH','DISCONNECTED_ROUTE'].includes(error.message) ? error.message : 'SERVICE_UNAVAILABLE';
-      group.errors.textContent=`${group.label}未能完整載入（${code}）。${group.done.size ? '已取得路段仍顯示；' : ''}未以直線替代。請稍後點此路線按鈕重試，或使用每日導航。`;
-      setStatus('開放路線服務暫時不可用或無法匹配途經點。行程與管制清單仍可查看；沒有Google API費用。');
+      group.errors.textContent=`${group.label}未能完整載入。請點路線按鈕重試，或使用下方分段導航。`;
+      group.errors.dataset.errorCode=code;
+      setStatus('暫時無法載入道路路線，請稍後重試或使用下方分段導航。');
       group.summary.textContent=`${group.label}｜${group.done.size ? '部分路段已載入' : '尚未取得道路軌跡'}`;
     }finally {
       group.loading=false;group.button.removeAttribute('aria-busy');group.button.disabled=false;repaint();if(group.visible)fit(group);
@@ -143,14 +144,15 @@
   }
   function makeGroup(id,label,color,nodes,codes,note='',partialStart=false) {
     const button=document.createElement('button');button.type='button';button.className='map-toggle';button.textContent=label;button.style.setProperty('--day-color',color);button.setAttribute('aria-pressed','false');toolbar.appendChild(button);
-    const row=document.createElement('div');row.className='map-route-result';
-    const summary=document.createElement('p');summary.textContent=label+'｜點選後載入道路路線';
+    const row=document.createElement('div');row.className='map-route-result';row.hidden=true;
+    const summary=document.createElement('p');summary.textContent=label+'｜正在載入…';
     const errors=document.createElement('p');errors.className='map-route-errors';errors.hidden=true;
     const exportButton=document.createElement('button');exportButton.type='button';exportButton.className='text-button';exportButton.textContent='匯出這條道路軌跡';exportButton.hidden=true;
     row.append(summary,errors,exportButton);document.querySelector('#map-route-results').appendChild(row);
     const group={id,label,color,nodes,codes,note,partialStart,button,summary,errors,exportButton,visible:false,models:[],parts:[],partsByBatch:[],done:new Set(),complete:false,loading:false,failed:false};groups.push(group);
     button.addEventListener('click',async()=>{
       if(group.loading)return;
+      row.hidden=false;
       group.visible=group.failed ? true : !group.visible;button.setAttribute('aria-pressed',String(group.visible));button.classList.toggle('active',group.visible);
       if(!group.visible && (selected?.group===group || hovered?.group===group))clear();
       repaint();if(group.visible){await load(group);fit(group);}
@@ -179,5 +181,6 @@
   makeGroup('day-1-western','Day 1 · 西部備案','#8055b5',data.controlMap.western.points,['西1A'],data.controlMap.western.note+' 新店起點僅為地區參考，非碧興門市精確落點。');
   const controls=document.createElement('button');controls.type='button';controls.className='map-toggle active';controls.textContent='管制色帶';controls.setAttribute('aria-pressed','true');controls.addEventListener('click',()=>{controlsVisible=!controlsVisible;controls.setAttribute('aria-pressed',String(controlsVisible));controls.classList.toggle('active',controlsVisible);if(!controlsVisible && (selected?.control || hovered?.control))clear();repaint();});toolbar.appendChild(controls);
   const all=document.createElement('button');all.type='button';all.className='map-toggle';all.textContent='顯示已載入路線全貌';all.addEventListener('click',()=>fit());toolbar.appendChild(all);
-  setStatus('請點選一天或備案載入道路路線。免Google金鑰；只有點選未載入的路線才會請求開放路線服務。');
+  setStatus('正在載入北宜主線…');
+  groups[0].button.click();
 })();
