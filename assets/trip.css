@@ -1570,7 +1570,7 @@ h1 {
   .leaflet-popup-content { max-width: 240px; }
 }
 
-/* Google roads map and synchronized hover/touch selection. */
+/* Road map and synchronized hover/touch selection. */
 .map-status { margin: .75rem 0; padding: .85rem 1rem; border-left: 3px solid #d9a45c; line-height: 1.6; }
 #map { min-height: 440px; height: 65vh; color: #172a2e; background: #edf1ec; }
 .map-selection { margin-top: .75rem; padding: 1.25rem; border: 2px solid #d6a536; border-radius: 12px; background: var(--panel-solid); color: var(--text); line-height: 1.7; }

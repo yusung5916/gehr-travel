@@ -1257,8 +1257,8 @@ tripData.days[2].focus += " 本次改以16:00入住、泡湯後到玉里晚餐�
 tripData.days[0].alternative.note += " 最新10/24公告大曼每日僅13:00–14:00開放，無法套用舊整點放行。";
 tripData.openQuestions[0]="出發前核對各段機車導航時間與全部工區等待，驗證19:00倒推預算；Day 1西部備案須在新店出發前決定，Day 3確認湯池與玉里晚餐營業。";
 
-// Google route overlays: anchors are reference mileposts, not surveyed worksite boundaries.
-tripData.controlMap.note = "Google道路路線；管制線截取自相同路徑。小數公里樁依參考里程沿道路推估；匹配失敗不畫線。";
+// Road overlays: anchors are reference mileposts, not surveyed worksite boundaries.
+tripData.controlMap.note = "OpenStreetMap道路路線；管制線截取自相同路徑。小數公里樁依參考里程沿道路推估；匹配失敗不畫線。";
 tripData.controlMap.sections.forEach((item,index) => {item.id = 'control-'+index; delete item.points;});
 const controlGeometry = [
  {segments:["舊1C"],from:47,to:50,anchors:[[47,24.6786404,121.3868364],[50,24.6721998,121.4069851]],source:"https://taiwanhelper.com/road/tw7",note:"47–50K參考樁位對齊；無路線或改道時不顯示。"},
@@ -1282,6 +1282,8 @@ tripData.days[0].segments[0].via = ["坪林老街","北宜公路石牌縣界公�
 tripData.days[0].segments[2].via = ["思源埡口","台灣中油 梨山站","大禹嶺"];
 tripData.controlMap.western.segments = [{code:"西1A",title:"新店→台3西部→埔里",originMeeting:true,destinationLodging:1,via:["三峽區公所","竹東火車站","大湖鄉公所","東勢大橋","草屯鎮公所"],note:"出發前決定的西部備案，避開高山共同後段；Google按途經點重算，仍須核對台3／台14及普通機車可行道路。"}];
 
+// Open routing uses stored geographic waypoints; incomplete coordinates are disclosed in the map.
+tripData.controlMap.sections[5].geometry = {segments:["2C"],from:111,to:144,anchors:[[111,23.5584853,120.8777856],[144,23.49069,120.8914672]],source:"https://taiwanhelper.com/road/tw21",note:"約111–144K參考公里樁對齊；公告草坪頭至塔塔加，入口仍以現場管制哨為準。"};
 window.TRAVEL_TRIPS = window.TRAVEL_TRIPS || {};
 window.TRAVEL_TRIPS[tripData.meta.id] = tripData;
 window.TRIP_DATA = tripData;

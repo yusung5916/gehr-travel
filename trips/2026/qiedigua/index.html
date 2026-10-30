@@ -6,8 +6,9 @@
     <meta name="theme-color" content="#0b1618" />
     <meta name="description" content="切地瓜騎乘路線、分段導航與出發前檢查。" />
     <title>2026 切地瓜｜四天三夜騎乘規劃</title>
-    <link rel="preconnect" href="https://maps.googleapis.com" />
-    <link rel="stylesheet" href="../../../assets/trip.css?v=20261030-3" />
+    <link rel="preconnect" href="https://tile.openstreetmap.org" />
+    <link rel="stylesheet" href="../../../assets/vendor/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="../../../assets/trip.css?v=20261030-4" />
   </head>
   <body>
     <a class="skip-link" href="#main">跳到主要內容</a>
@@ -68,10 +69,10 @@
             <p class="section-kicker">Route overview</p>
             <h2 id="map-title">台灣路線與管制地圖</h2>
           </div>
-          <p>Google機車道路路線，依每日導航途經點計算。滑入線條或管制清單會變亮；手機點選可保留詳情。先載入北宜主線，其餘路線點選後載入。</p>
+          <p>OpenStreetMap開放路網＋Valhalla機車路線，不需要Google API Key。點選一天或備案載入道路軌跡；滑入線條或管制清單會變亮，手機點選可保留詳情。</p>
         </div>
         <div class="map-toolbar" id="map-toolbar" aria-label="切換每日路線"></div>
-        <p id="map-status" class="map-status" role="status" aria-live="polite">正在載入Google地圖…</p>
+        <p id="map-status" class="map-status" role="status" aria-live="polite">正在載入開放街圖…</p>
         <div class="map-frame">
           <div id="map" role="region" aria-label="2026 切地瓜四天路線互動地圖"></div>
         </div>
@@ -79,8 +80,8 @@
           <button id="map-selection-close" type="button" aria-label="關閉路段詳情">關閉 ×</button>
           <div class="map-selection-copy"></div>
         </aside>
-        <div id="map-route-results" aria-label="Google路線載入結果"></div>
-        <p class="data-note">機車路線為Google測試版，可能缺少限制資訊，請依現場標誌通行。此圖供行程規劃，實際導航仍開啟Google Maps；API路線可能與App不同。純騎程不含餐休、泡湯及管制等待。</p>
+        <div id="map-route-results" aria-label="道路路線載入結果"></div>
+        <p class="data-note">路線由Valhalla依OpenStreetMap與既有途經座標規劃，可能與每日Google Maps導航不同，未核實所有機車限制及即時通阻。新店碧興精確座標仍待確認，北宜圖由坪林開始。公開路線服務有公平使用限制且不保證可用；不會自動重試或背景重算。可匯出軌跡供後續固定保存。</p>
         <noscript>互動地圖需要JavaScript；請使用每日路線及官方公告查詢。</noscript>
         <div id="control-details" class="control-details" aria-label="管制圖例與官方公告"></div>
       </section>
@@ -166,10 +167,11 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="route-data.js?v=20261030-3"></script>
-    <script src="../../../assets/trip-app.js?v=20261030-3"></script>
-    <script src="../../../assets/maps-config.js?v=20261030-3"></script>
-    <script src="../../../assets/route-geometry.js?v=20261030-3"></script>
-    <script src="../../../assets/google-route-map.js?v=20261030-3"></script>
+    <script src="route-data.js?v=20261030-4"></script>
+    <script src="../../../assets/trip-app.js?v=20261030-4"></script>
+    <script src="../../../assets/vendor/leaflet/leaflet.js"></script>
+    <script src="../../../assets/route-geometry.js?v=20261030-4"></script>
+    <script src="../../../assets/open-route-client.js?v=20261030-4"></script>
+    <script src="../../../assets/open-route-map.js?v=20261030-4"></script>
   </body>
 </html>
