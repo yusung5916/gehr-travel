@@ -40,8 +40,8 @@
     const hit=L.polyline(points,{color,weight:26,opacity:0,smoothFactor:0,bubblingMouseEvents:false,pane:control ? 'controlHits' : 'roadHits'});
     const model={group,path,title,html,color,controlId,control,weight,halo,line,hit};
     models.push(model);group.models.push(model);
-    hit.on('mouseover',event=>{model.focusPoint=event.latlng;hovered=model;repaint();show(model);});
-    hit.on('mouseout',()=>{hovered=null;repaint();if(selected)show(selected);else info.hidden=true;});
+    hit.on('mouseover',event=>{if(!matchMedia('(hover: hover)').matches)return;model.focusPoint=event.latlng;hovered=model;repaint();show(model);});
+    hit.on('mouseout',()=>{if(!matchMedia('(hover: hover)').matches)return;hovered=null;repaint();if(selected)show(selected);else info.hidden=true;});
     hit.on('click',event=>{model.focusPoint=event.latlng;selected=model;repaint();show(model);});
     return model;
   }
@@ -87,10 +87,10 @@
     });
     queue=task.catch(()=>{});return task;
   }
-  // Same-origin OSM snapshots can replace network routing once the owner saves an export.
+  // Load the saved road paths before considering a live routing request.
   const snapshots=fetch('road-routes.geojson',{credentials:'same-origin'}).then(r=>r.ok ? r.json() : {features:[]}).catch(()=>({features:[]}));
   function addRoadPart(group,part,index,total,source) {
-    const html=`<strong>${esc(group.label)}｜第${index+1}/${total}段</strong><p>道路長度約${part.distance.toFixed(1)}公里</p><p>${esc(group.note)}</p>`;
+    const html=`<strong>${esc(group.label)}｜第${index+1}/${total}段</strong><p>道路長度約${part.distance.toFixed(1)}公里</p><p>${esc(group.note)}</p><p>${esc(data.roadReview?.[group.id] || '道路軌跡供行程對照；機車通行與當日通阻仍須核對。')}</p>`;
     addLine(group,part.path,{title:group.label,html,color:group.color});
   }
   async function load(group) {
@@ -100,7 +100,7 @@
     try {
       const snapshot=await snapshots;
       const signature=JSON.stringify(group.nodes);
-      const saved=(snapshot.features || []).find(f=>f.properties?.groupId===group.id && f.properties?.signature===signature && f.geometry?.type==='LineString');
+      const saved=(snapshot.features || []).find(f=>f.properties?.groupId===group.id && f.properties?.signature===signature && f.properties?.routingVersion===client.version && f.geometry?.type==='LineString');
       if(saved && group.done.size===0) {
         const parts=client.parse({trip:{status:0,legs:[{shape:saved.geometry,summary:{length:saved.properties.distanceKm}}]}});
         group.parts=parts;group.complete=true;
@@ -158,7 +158,7 @@
       repaint();if(group.visible){await load(group);fit(group);}
     });
     exportButton.addEventListener('click',()=>{
-      const collection={type:'FeatureCollection',features:[{type:'Feature',properties:{groupId:id,signature:JSON.stringify(nodes),source:'OpenStreetMap / Valhalla',generatedAt:new Date().toISOString(),distanceKm:group.parts.reduce((n,p)=>n+p.distance,0)},geometry:{type:'LineString',coordinates:group.parts.flatMap(p=>p.path.map(p=>[p.lng,p.lat]))}}]};
+      const collection={type:'FeatureCollection',features:[{type:'Feature',properties:{groupId:id,signature:JSON.stringify(nodes),routingVersion:client.version,source:'OpenStreetMap / Valhalla',costing:'motor_scooter',verifiedForNavigation:false,generatedAt:new Date().toISOString(),distanceKm:group.parts.reduce((n,p)=>n+p.distance,0)},geometry:{type:'LineString',coordinates:group.parts.flatMap(p=>p.path.map(p=>[p.lng,p.lat]))}}]};
       const url=URL.createObjectURL(new Blob([JSON.stringify(collection)],{type:'application/geo+json'}));const a=document.createElement('a');a.href=url;a.download=id+'-road.geojson';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
     });
     return group;
