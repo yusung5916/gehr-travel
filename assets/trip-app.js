@@ -235,7 +235,21 @@
 
   function renderRouteMap() {
     const mapRoot = $("#map");
-    if (!mapRoot || !window.L) return;
+    if (!mapRoot) return;
+    const controls = data.controlMap;
+    const detailRoot = $("#control-details");
+    if (controls && detailRoot) {
+      detailRoot.innerHTML = `<p>官方資料核對 ${controls.checked}（台灣時間）。${controls.note}</p><p>粗橙線：機動管制 · 粗紅線：限時／夜間封閉 · 粗紫虛線：待複核。電腦滑入顯示摘要，手機點擊粗線或下列路段查看。</p>`;
+      controls.sections.forEach((item) => {
+        const details = document.createElement("details");
+        details.innerHTML = `<summary>${item.title}｜${item.time}</summary><p>${item.detail}</p><a href="${item.url}" target="_blank" rel="noopener noreferrer">官方來源 ↗</a>`;
+        detailRoot.appendChild(details);
+      });
+    }
+    if (!window.L) {
+      mapRoot.innerHTML = "地圖未能載入；請查看下方管制清單與每日導航。";
+      return;
+    }
 
     const map = L.map(mapRoot, {
       scrollWheelZoom: false,
@@ -331,6 +345,45 @@
       }
     });
 
+    if (controls) {
+      const addToggle = (label, layer, color, active) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = `map-toggle${active ? " active" : ""}`;
+        button.style.setProperty("--day-color", color);
+        button.setAttribute("aria-pressed", String(active));
+        button.textContent = label;
+        button.addEventListener("click", () => {
+          const show = !map.hasLayer(layer);
+          if (show) layer.addTo(map); else map.removeLayer(layer);
+          button.classList.toggle("active", show);
+          button.setAttribute("aria-pressed", String(show));
+        });
+        toolbar.appendChild(button);
+      };
+      const western = L.layerGroup();
+      const west = controls.western;
+      L.polyline(west.points, {color:"#8b5cf6", weight:5, dashArray:"10 8"})
+        .bindTooltip(west.title).bindPopup(`<strong>${west.title}</strong><p>${west.note}</p>`).addTo(western);
+      addToggle("Day 1 · 西部備案", western, "#8b5cf6", false);
+      const restrictions = L.layerGroup().addTo(map);
+      controls.sections.forEach((item) => {
+        const color = {mobile:"#c76b00",window:"#d62f45",unknown:"#8750be"}[item.kind];
+        const content = `<strong>${item.title}</strong><p>${item.time}</p><p>${item.detail}</p><small>核對 ${controls.checked} · 工區示意</small><br><a href="${item.url}" target="_blank" rel="noopener noreferrer">官方來源 ↗</a>`;
+        L.polyline(item.points, {color, weight:10, opacity:0.95, dashArray:item.kind === "unknown" ? "7 5" : null})
+          .bindTooltip(`${item.title}<br>${item.time}`, {sticky:true})
+          .bindPopup(content, {maxWidth:300}).addTo(restrictions);
+        // A wider transparent stroke makes narrow road segments usable on touchscreens.
+        L.polyline(item.points, {color, weight:28, opacity:0})
+          .bindTooltip(`${item.title}<br>${item.time}`, {sticky:true})
+          .bindPopup(content, {maxWidth:300}).addTo(restrictions);
+      });
+      addToggle("管制路段", restrictions, "#d62f45", true);
+      const reset = document.createElement("button");
+      reset.type="button"; reset.className="map-toggle"; reset.textContent="全台視野";
+      reset.addEventListener("click",()=>map.fitBounds(allPoints, {padding:[28,28]}));
+      toolbar.appendChild(reset);
+    }
     map.fitBounds(allPoints, { padding: [28, 28] });
   }
 

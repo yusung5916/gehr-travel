@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://unpkg.com" />
     <link rel="preconnect" href="https://tile.openstreetmap.org" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="../../../assets/trip.css?v=20261027-1" />
+    <link rel="stylesheet" href="../../../assets/trip.css?v=20261030-1" />
   </head>
   <body>
     <a class="skip-link" href="#main">跳到主要內容</a>
@@ -68,15 +68,16 @@
         <div class="section-heading route-heading map-heading">
           <div>
             <p class="section-kicker">Route overview</p>
-            <h2 id="map-title">沿著台灣走完四天</h2>
+            <h2 id="map-title">台灣路線與管制地圖</h2>
           </div>
-          <p>這張圖以節點直線示意全程方向及住宿落點；實際道路以每日分段導航和當日路況為準。</p>
+          <p>目前北宜主線、北橫歷史路線與西部備案可切換；管制加粗分色。電腦滑入、手機點擊查看詳情。節點線僅為區域示意，請搭配每日機車導航。</p>
         </div>
         <div class="map-toolbar" id="map-toolbar" aria-label="切換每日路線"></div>
         <div class="map-frame">
           <div id="map" role="region" aria-label="2026 切地瓜四天路線互動地圖"></div>
           <div class="map-caption">Map data © OpenStreetMap contributors</div>
         </div>
+        <div id="control-details" class="control-details" aria-label="管制圖例與官方公告"></div>
       </section>
 
       <section class="section route-section" id="route" aria-labelledby="route-title">
@@ -160,7 +161,7 @@
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="route-data.js?v=20261027-2"></script>
-    <script src="../../../assets/trip-app.js?v=20261027-2"></script>
+    <script src="route-data.js?v=20261030-1"></script>
+    <script src="../../../assets/trip-app.js?v=20261030-1"></script>
   </body>
 </html>

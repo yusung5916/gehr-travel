@@ -1557,3 +1557,15 @@ h1 {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Route controls remain readable and usable without hover or map tiles. */
+.control-details { padding: 1rem; line-height: 1.7; overflow-wrap: anywhere; }
+.control-details details { padding: .85rem 0; border-bottom: 1px solid #80808055; }
+.control-details summary { cursor: pointer; min-height: 44px; font-weight: 650; }
+.map-toggle { min-height: 44px; }
+.leaflet-popup-content { line-height: 1.6; overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  #map { height: 60svh; min-height: 360px; }
+  .map-toolbar { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .leaflet-popup-content { max-width: 240px; }
+}
