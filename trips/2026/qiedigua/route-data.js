@@ -1257,6 +1257,31 @@ tripData.days[2].focus += " 本次改以16:00入住、泡湯後到玉里晚餐�
 tripData.days[0].alternative.note += " 最新10/24公告大曼每日僅13:00–14:00開放，無法套用舊整點放行。";
 tripData.openQuestions[0]="出發前核對各段機車導航時間與全部工區等待，驗證19:00倒推預算；Day 1西部備案須在新店出發前決定，Day 3確認湯池與玉里晚餐營業。";
 
+// Google route overlays: anchors are reference mileposts, not surveyed worksite boundaries.
+tripData.controlMap.note = "Google道路路線；管制線截取自相同路徑。小數公里樁依參考里程沿道路推估；匹配失敗不畫線。";
+tripData.controlMap.sections.forEach((item,index) => {item.id = 'control-'+index; delete item.points;});
+const controlGeometry = [
+ {segments:["舊1C"],from:47,to:50,anchors:[[47,24.6786404,121.3868364],[50,24.6721998,121.4069851]],source:"https://taiwanhelper.com/road/tw7",note:"47–50K參考樁位對齊；無路線或改道時不顯示。"},
+ {segments:["1A"],from:56.611,to:77.5,anchors:[[56,24.8689247,121.7735334],[57,24.8666441,121.7772544],[77,24.7872736,121.7617381],[78,24.7785857,121.7593281]],source:"https://taiwanhelper.com/road/tw9",note:"56.611–77.5K端點依整公里樁沿路線內插推估。"},
+ {segments:["1A"],from:87,to:102,anchors:[[87,24.60619,121.5223773],[102,24.6817028,121.6210022]],source:"https://taiwanhelper.com/road/tw7",note:"僅標示主線相交約87–102K；公告全段為60.8–103K。"},
+ {segments:["1C","舊1D"],from:52.4,to:52.4,anchors:[[52,24.3586652,121.326997],[53,24.3518371,121.3249081]],source:"https://taiwanhelper.com/road/tw7a",note:"52.4K由52／53K沿道路推估，色帶為周邊約160公尺，非施工邊界。"},
+ {segments:["1C","舊1D"],from:95.84,to:96.01,anchors:[[95,24.2291988,121.2750469],[96,24.2244643,121.2802943],[97,24.226514,121.288992]],source:"https://taiwanhelper.com/road/tw8",note:"碧綠溪95.84–96.01K依公里樁沿道路推估；松泉崗另列。"},
+ {segments:["2C"],legIndex:0,note:"沿草坪頭至塔塔加第一段Google道路路線；入口依現場管制哨。"},
+ null
+];
+tripData.controlMap.sections.forEach((item,index)=>{item.geometry=controlGeometry[index];});
+const mountainItem = tripData.controlMap.sections[4];
+mountainItem.title = "台8｜碧綠溪95.84–96.01K";
+mountainItem.time = "每日08:00–17:00機動管制";
+tripData.controlMap.sections.push({...mountainItem,id:"control-songquan",title:"台8｜松泉崗107.67–107.73K",time:"每日08:30–16:30機動管制",geometry:{segments:["1C","舊1D"],from:107.67,to:107.73,anchors:[[107,24.1969426,121.3032487],[108,24.1906223,121.3036392]],source:"https://taiwanhelper.com/road/tw8",note:"107.67–107.73K依107／108K沿道路推估，非測量界線。"}});
+const day4Item = tripData.controlMap.sections[6];
+day4Item.title = "Day 4｜台9馬太鞍溪鋼便橋";
+day4Item.geometry = {segments:["4D"],from:231.649,to:233.798,anchors:[[231,23.6989498,121.4109533],[232,23.6903498,121.4089487],[233,23.6826344,121.4123634],[234,23.6776428,121.4198733]],source:"https://taiwanhelper.com/road/tw9",note:"依既有公里樁推估；鋼便橋改建後路線若偏離樁位，不顯示色帶。"};
+tripData.controlMap.sections.push({...day4Item,id:"control-jiugong",title:"Day 4｜台9丁九宮里9.4K",geometry:{segments:["4E"],from:9.4,to:9.4,anchors:[[9,24.5482216,121.8668592],[10,24.5404391,121.8678305]],source:"https://taiwanhelper.com/road/tw9d",note:"9.4K沿道路推估，色帶為周邊約160公尺，非施工邊界。"}});
+tripData.days[0].segments[0].via = ["坪林老街","北宜公路石牌縣界公園","礁溪車站","宜蘭市"];
+tripData.days[0].segments[2].via = ["思源埡口","台灣中油 梨山站","大禹嶺"];
+tripData.controlMap.western.segments = [{code:"西1A",title:"新店→台3西部→埔里",originMeeting:true,destinationLodging:1,via:["三峽區公所","竹東火車站","大湖鄉公所","東勢大橋","草屯鎮公所"],note:"出發前決定的西部備案，避開高山共同後段；Google按途經點重算，仍須核對台3／台14及普通機車可行道路。"}];
+
 window.TRAVEL_TRIPS = window.TRAVEL_TRIPS || {};
 window.TRAVEL_TRIPS[tripData.meta.id] = tripData;
 window.TRIP_DATA = tripData;

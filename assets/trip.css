@@ -1569,3 +1569,24 @@ h1 {
   .map-toolbar { display: flex; flex-wrap: wrap; gap: .5rem; }
   .leaflet-popup-content { max-width: 240px; }
 }
+
+/* Google roads map and synchronized hover/touch selection. */
+.map-status { margin: .75rem 0; padding: .85rem 1rem; border-left: 3px solid #d9a45c; line-height: 1.6; }
+#map { min-height: 440px; height: 65vh; color: #172a2e; background: #edf1ec; }
+.map-selection { margin-top: .75rem; padding: 1.25rem; border: 2px solid #d6a536; border-radius: 12px; background: var(--panel-solid); color: var(--text); line-height: 1.7; }
+.map-selection[hidden] { display: none; }
+#map-selection-close { float: right; min-width: 70px; min-height: 44px; cursor: pointer; border: 1px solid currentColor; border-radius: 8px; color: inherit; background: transparent; margin-left: .7rem; }
+.map-selection p { margin: .6rem 0; }
+.map-selection a,.map-control-card a { text-decoration: underline; text-underline-offset: 3px; }
+.map-route-result p { margin: .4rem 0; }
+.map-route-errors { color: #d57a57; }
+.map-control-card { padding: .8rem; border-radius: 8px; transition: background-color .15s, box-shadow .15s; }
+.map-control-card summary span { display: block; font-size: .9em; font-weight: 400; }
+.map-control-card.is-highlighted { background: #d7a52b22; box-shadow: inset 4px 0 #d7a52b; }
+.control-location-status,.map-precision { font-size: .88rem; opacity: .85; }
+.map-toggle:focus-visible,.map-control-card summary:focus-visible { outline: 3px solid #d7a52b; outline-offset: 4px; }
+@media (max-width:600px) {
+  #map { height: 55svh; min-height: 360px; }
+  .map-selection { padding: 1rem; }
+  .map-toggle { flex: 1 1 135px; justify-content: center; }
+}

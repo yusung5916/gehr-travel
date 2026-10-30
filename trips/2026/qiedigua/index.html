@@ -6,10 +6,8 @@
     <meta name="theme-color" content="#0b1618" />
     <meta name="description" content="切地瓜騎乘路線、分段導航與出發前檢查。" />
     <title>2026 切地瓜｜四天三夜騎乘規劃</title>
-    <link rel="preconnect" href="https://unpkg.com" />
-    <link rel="preconnect" href="https://tile.openstreetmap.org" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="../../../assets/trip.css?v=20261030-1" />
+    <link rel="preconnect" href="https://maps.googleapis.com" />
+    <link rel="stylesheet" href="../../../assets/trip.css?v=20261030-3" />
   </head>
   <body>
     <a class="skip-link" href="#main">跳到主要內容</a>
@@ -70,13 +68,20 @@
             <p class="section-kicker">Route overview</p>
             <h2 id="map-title">台灣路線與管制地圖</h2>
           </div>
-          <p>目前北宜主線、北橫歷史路線與西部備案可切換；管制加粗分色。電腦滑入、手機點擊查看詳情。節點線僅為區域示意，請搭配每日機車導航。</p>
+          <p>Google機車道路路線，依每日導航途經點計算。滑入線條或管制清單會變亮；手機點選可保留詳情。先載入北宜主線，其餘路線點選後載入。</p>
         </div>
         <div class="map-toolbar" id="map-toolbar" aria-label="切換每日路線"></div>
+        <p id="map-status" class="map-status" role="status" aria-live="polite">正在載入Google地圖…</p>
         <div class="map-frame">
           <div id="map" role="region" aria-label="2026 切地瓜四天路線互動地圖"></div>
-          <div class="map-caption">Map data © OpenStreetMap contributors</div>
         </div>
+        <aside id="map-selection" class="map-selection" aria-label="選取路段詳情" hidden>
+          <button id="map-selection-close" type="button" aria-label="關閉路段詳情">關閉 ×</button>
+          <div class="map-selection-copy"></div>
+        </aside>
+        <div id="map-route-results" aria-label="Google路線載入結果"></div>
+        <p class="data-note">機車路線為Google測試版，可能缺少限制資訊，請依現場標誌通行。此圖供行程規劃，實際導航仍開啟Google Maps；API路線可能與App不同。純騎程不含餐休、泡湯及管制等待。</p>
+        <noscript>互動地圖需要JavaScript；請使用每日路線及官方公告查詢。</noscript>
         <div id="control-details" class="control-details" aria-label="管制圖例與官方公告"></div>
       </section>
 
@@ -154,14 +159,17 @@
       </div>
       <div class="footer-links">
         <a href="../../../index.html">所有旅行</a>
+        <a href="../../../map-policy.html">地圖使用與隱私</a>
         <a href="#top">回到頁首 ↑</a>
       </div>
     </footer>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="route-data.js?v=20261030-1"></script>
-    <script src="../../../assets/trip-app.js?v=20261030-1"></script>
+    <script src="route-data.js?v=20261030-3"></script>
+    <script src="../../../assets/trip-app.js?v=20261030-3"></script>
+    <script src="../../../assets/maps-config.js?v=20261030-3"></script>
+    <script src="../../../assets/route-geometry.js?v=20261030-3"></script>
+    <script src="../../../assets/google-route-map.js?v=20261030-3"></script>
   </body>
 </html>
