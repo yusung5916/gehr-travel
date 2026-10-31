@@ -217,6 +217,7 @@
       });
     };
 
+    activateTab(tabButtons.find(tab=>tab.id===`tab-${data.defaultDay}`) || tabButtons[0]);
     tabButtons.forEach((tab, index) => {
       tab.addEventListener("click", () => activateTab(tab));
       tab.addEventListener("keydown", (event) => {

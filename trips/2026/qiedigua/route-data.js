@@ -1304,6 +1304,28 @@ tripData.roadReview = {
  "day-4-alternative":"已對照台11甲與台11海線；本色線只涵蓋糖廠至和平，後續接第四天主線。",
  "day-1-western":"已加入龍潭、豐原、潭子、大里及霧峰的台3道路參考點，對照台3／台14；新店起點是地區參考，並非碧興門市座標。"
 };
+// 11/1 first release: today's controls. Other days retain their own check dates.
+tripData.meta.updated = "2026-11-01";
+tripData.meta.statusLabel = "旅程進行中";
+tripData.meta.status = "今日 Day 2｜管制已更新";
+tripData.defaultDay = "day-2";
+tripData.meta.note = "11/1先更新今日埔里至恆春管制。台21 132.3K已延長施工，但週日原則不施工管制、單線雙向；新增台18 73.8–76.9K刷坡提醒。Day 3、4待第二批複核，未查到公告不代表全線暢通。";
+tripData.routeAlert = {title:"今日 Day 2｜台21週日單線通行；台18新增刷坡管制",checked:"2026-11-01",checkedLabel:"11/1早晨核對官方公告；地方聯絡道路臨時通阻仍須現場確認",text:"台21 132.3K施工延長至2027/2/16：今天週日原則不施工管制，現場單線雙向；每整點放行僅適用週一至週五08:00–17:00（12:00–13:00不管制）。草坪頭至塔塔加仍07:00開、17:30封。今天另經台18 73.8–76.9K刷坡08:00–17:00單線雙向，以及台27新發大橋08:00–17:30單線雙向。魚池維持縣131經五城到水里，避開日月潭馬拉松環湖管制。",url:"https://www.ysnp.gov.tw/Highway/C001300",linkLabel:"台21最新官方公告"};
+const today = tripData.days[1];
+today.focus = "今日11/1：台21 132.3K施工已延長，但週日原則不施工管制、現場單線雙向，無須套用平日整點放行。草坪頭至塔塔加07:00–17:30開放。新增台18 73.8–76.9K每日08:00–17:00刷坡單線雙向提醒；台27新發大橋08:00–17:30單線雙向仍在。魚池走縣131五城至水里，與日月潭環湖馬拉松公告路段不重疊。嘉129、茶山至那瑪夏聯絡道路未取得足以保證全線通行的即時資料，入山前重查現場；19:00為住宿目標。";
+today.segments.find(s=>s.code==="2C").note = "台21 132.3K施工延至2027/2/16，週六日原則不施工管制、單線雙向；平日08:00–17:00每整點放行，12:00–13:00不管制。今天週日依現場指揮通過。草坪頭至塔塔加07:00–17:30開放；下阿里山往石棹必經台18 73.8–76.9K，至11/30每日08:00–17:00刷坡單線雙向（連假不管制），須預留等待。";
+const towerControl = tripData.controlMap.sections.find(s=>s.id==="control-5");
+towerControl.detail = "11/1核對玉管處：台21 110–144K每日17:30至翌日07:00封閉。132.3K新公告延長施工，今日週日原則不施工管制、現場單線雙向；平日整點放行另列工區卡。";
+towerControl.checked = "2026-11-01";
+tripData.controlMap.sections.push(
+ {id:"control-today-132",title:"今日｜台21 132.3K明隧道",kind:"mobile",checked:"2026-11-01",time:"11/1週日：原則不施工管制，單線雙向",detail:"新公告自2026/10/31至2027/2/16。週一至週五08:00–17:00每整點放行已在兩端排隊車輛，全數通過旋即封閉；12:00–13:00不管制。週六日、連假及選舉前1日原則不施工管制。今天依現場人員指揮，不能推定零等待。",url:"https://www.ysnp.gov.tw/Highway/C001300",geometry:{segments:["2C"],from:132.3,to:132.3,anchors:[[132,23.5344938,120.9043418],[133,23.5389978,120.8996493]],source:"https://taiwanhelper.com/road/tw21",note:"132.3K依公里樁沿道路估算；色帶為約160公尺周邊，非施工界線。"}},
+ {id:"control-today-18",title:"今日新增｜台18 73.8–76.9K刷坡",kind:"mobile",checked:"2026-11-01",time:"10/20–11/30，每日08:00–17:00單線雙向",detail:"10/27發布，阿里山往石棹的2C會經過；連續假期不管制，今天一般週日不可當成連假豁免。公告無固定放行分鐘，依交管人員指揮。",url:"https://www.thb.gov.tw/NewsConstructionRoad_Content.aspx?n=353&s=240369",geometry:{segments:["2C"],from:73.8,to:76.9,anchors:[[73,23.4833028,120.7407924],[74,23.4815752,120.7467986],[76,23.4889686,120.7532092],[77,23.4906316,120.7583638]],source:"https://taiwanhelper.com/road/tw18",note:"73.8–76.9K依公里樁沿道路估算，非測量界線。"}},
+ {id:"control-today-27",title:"今日｜台27新發大橋3.087–3.552K",kind:"mobile",checked:"2026-11-01",time:"至11/30，每日08:00–17:30單線雙向",detail:"荖濃往水門的2F會經過；3日以上連假才不施工管制。今天一般週日仍須預留停等，公告無固定放行分鐘。",url:"https://thbu3.thb.gov.tw/News_Content_table.aspx?n=4796&s=282740&sms=13379",geometry:{segments:["2F"],from:3.087,to:3.552,anchors:[[3,23.0500576,120.668665],[4,23.0416451,120.6671029]],source:"https://taiwanhelper.com/road/tw27",note:"3.087–3.552K依公里樁沿道路估算，非測量界線。"}}
+);
+tripData.controlMap.sections.sort((a,b)=>Number(b.geometry?.segments?.some(s=>s.startsWith("2")) || false)-Number(a.geometry?.segments?.some(s=>s.startsWith("2")) || false));
+tripData.roadControlLinks.unshift({title:"今日新增｜台18 73.8–76.9K刷坡",url:"https://www.thb.gov.tw/NewsConstructionRoad_Content.aspx?n=353&s=240369",scope:"Day 2 阿里山→石棹；11/1核對",routes:"台18 73.8–76.9K",note:"10/20–11/30每日08:00–17:00單線雙向；連假不管制，今日一般週日仍須停等。"});
+const towerLink=tripData.roadControlLinks.find(s=>s.title.includes("西北園區"));
+if(towerLink){towerLink.url=towerControl.url;towerLink.note="11/1核對：草坪頭至塔塔加07:00–17:30開放。132.3K施工延至2027/2/16，週日原則不施工管制、單線雙向；平日才08:00–17:00每整點放行（12:00–13:00不管制）。";}
 window.TRAVEL_TRIPS = window.TRAVEL_TRIPS || {};
 window.TRAVEL_TRIPS[tripData.meta.id] = tripData;
 window.TRIP_DATA = tripData;

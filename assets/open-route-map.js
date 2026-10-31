@@ -55,12 +55,12 @@
       if(!spec || !spec.segments.some(code=>group.codes.includes(code)))continue;
       const slice=geo.mileageSlice(path,spec);
       if(slice.length<2)continue;
-      const html=`<strong>${esc(item.title)}</strong><p>${esc(item.time)}</p><p>${esc(item.detail)}</p><p class="map-precision">${esc(spec.note)}</p><small>公告核對 ${esc(data.controlMap.checked)}；通行依現場指揮。</small>${sourceLinks(item)}`;
+      const html=`<strong>${esc(item.title)}</strong><p>${esc(item.time)}</p><p>${esc(item.detail)}</p><p class="map-precision">${esc(spec.note)}</p><small>公告核對 ${esc(item.checked || data.controlMap.checked)}；通行依現場指揮。</small>${sourceLinks(item)}`;
       addLine(group,slice,{title:item.title,html,color:{window:'#ce203d',mobile:'#bc5700',unknown:'#8055b5'}[item.kind],controlId:item.id});
     }
   }
   function renderControls() {
-    list.innerHTML=`<p>橙：機動管制 · 紅：限時通行／夜間封閉 · 紫：待複核。公告核對 ${esc(data.controlMap.checked)}。</p>`;
+    list.innerHTML=`<p>橙：機動管制 · 紅：限時通行／夜間封閉 · 紫：待複核。今日工區已於11/1複核；其他工區沿用各卡查證日。</p>`;
     for(const item of data.controlMap.sections) {
       const card=document.createElement('details');card.className='map-control-card';card._item=item;
       card.innerHTML=`<summary>${esc(item.title)}<span>${esc(item.time)}</span></summary><p class="control-location-status">此工區位置尚未在目前路線核實，請查官方公告。</p><p>${esc(item.detail)}</p>${sourceLinks(item)}`;
@@ -181,6 +181,7 @@
   makeGroup('day-1-western','Day 1 · 西部備案','#8055b5',data.controlMap.western.points,['西1A'],data.controlMap.western.note+' 新店起點僅為地區參考，非碧興門市精確落點。');
   const controls=document.createElement('button');controls.type='button';controls.className='map-toggle active';controls.textContent='管制色帶';controls.setAttribute('aria-pressed','true');controls.addEventListener('click',()=>{controlsVisible=!controlsVisible;controls.setAttribute('aria-pressed',String(controlsVisible));controls.classList.toggle('active',controlsVisible);if(!controlsVisible && (selected?.control || hovered?.control))clear();repaint();});toolbar.appendChild(controls);
   const all=document.createElement('button');all.type='button';all.className='map-toggle';all.textContent='顯示已載入路線全貌';all.addEventListener('click',()=>fit());toolbar.appendChild(all);
-  setStatus('正在載入北宜主線…');
-  groups[0].button.click();
+  const initial=groups.find(group=>group.id===data.defaultDay) || groups[0];
+  setStatus(`正在載入${initial.label}…`);
+  initial.button.click();
 })();
