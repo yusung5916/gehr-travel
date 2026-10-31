@@ -63,7 +63,7 @@
     list.innerHTML=`<p>橙：機動管制 · 紅：限時通行／夜間封閉 · 紫：待複核。今日工區已於11/1複核；其他工區沿用各卡查證日。</p>`;
     for(const item of data.controlMap.sections) {
       const card=document.createElement('details');card.className='map-control-card';card._item=item;
-      card.innerHTML=`<summary>${esc(item.title)}<span>${esc(item.time)}</span></summary><p class="control-location-status">此工區位置尚未在目前路線核實，請查官方公告。</p><p>${esc(item.detail)}</p>${sourceLinks(item)}`;
+      card.innerHTML=`<summary>${esc(item.title)}<span>${esc(item.time)}</span></summary><small>公告查證 ${esc(item.checked || data.controlMap.checked)}</small><p class="control-location-status">此工區位置尚未在目前路線核實，請查官方公告。</p><p>${esc(item.detail)}</p>${sourceLinks(item)}`;
       const activate=pin=>{const m=models.find(m=>m.controlId===item.id && visible(m));if(!m)return;if(pin)selected=m;else hovered=m;repaint();show(m);};
       card.addEventListener('mouseenter',()=>activate(false));
       card.addEventListener('mouseleave',()=>{hovered=null;repaint();if(selected)show(selected);else info.hidden=true;});
@@ -181,7 +181,8 @@
   makeGroup('day-1-western','Day 1 · 西部備案','#8055b5',data.controlMap.western.points,['西1A'],data.controlMap.western.note+' 新店起點僅為地區參考，非碧興門市精確落點。');
   const controls=document.createElement('button');controls.type='button';controls.className='map-toggle active';controls.textContent='管制色帶';controls.setAttribute('aria-pressed','true');controls.addEventListener('click',()=>{controlsVisible=!controlsVisible;controls.setAttribute('aria-pressed',String(controlsVisible));controls.classList.toggle('active',controlsVisible);if(!controlsVisible && (selected?.control || hovered?.control))clear();repaint();});toolbar.appendChild(controls);
   const all=document.createElement('button');all.type='button';all.className='map-toggle';all.textContent='顯示已載入路線全貌';all.addEventListener('click',()=>fit());toolbar.appendChild(all);
-  const initial=groups.find(group=>group.id===data.defaultDay) || groups[0];
+  const initialId=new URLSearchParams(location.search).get('day') || data.defaultDay;
+  const initial=groups.find(group=>group.id===initialId) || groups[0];
   setStatus(`正在載入${initial.label}…`);
   initial.button.click();
 })();

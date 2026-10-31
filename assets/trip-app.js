@@ -217,7 +217,8 @@
       });
     };
 
-    activateTab(tabButtons.find(tab=>tab.id===`tab-${data.defaultDay}`) || tabButtons[0]);
+    const initialDay=new URLSearchParams(location.search).get("day") || data.defaultDay;
+    activateTab(tabButtons.find(tab=>tab.id===`tab-${initialDay}`) || tabButtons[0]);
     tabButtons.forEach((tab, index) => {
       tab.addEventListener("click", () => activateTab(tab));
       tab.addEventListener("keydown", (event) => {

@@ -1326,6 +1326,36 @@ tripData.controlMap.sections.sort((a,b)=>Number(b.geometry?.segments?.some(s=>s.
 tripData.roadControlLinks.unshift({title:"今日新增｜台18 73.8–76.9K刷坡",url:"https://www.thb.gov.tw/NewsConstructionRoad_Content.aspx?n=353&s=240369",scope:"Day 2 阿里山→石棹；11/1核對",routes:"台18 73.8–76.9K",note:"10/20–11/30每日08:00–17:00單線雙向；連假不管制，今日一般週日仍須停等。"});
 const towerLink=tripData.roadControlLinks.find(s=>s.title.includes("西北園區"));
 if(towerLink){towerLink.url=towerControl.url;towerLink.note="11/1核對：草坪頭至塔塔加07:00–17:30開放。132.3K施工延至2027/2/16，週日原則不施工管制、單線雙向；平日才08:00–17:00每整點放行（12:00–13:00不管制）。";}
+// Second release: later days checked separately, with today's findings kept first.
+tripData.meta.note = "11/1已先發布今日Day 2管制，再另批複核11/2、11/3。開頁預設今日路線；工區卡各自標示查證日。台21週日原則不施工管制；台18多處單線雙向，現場仍須停等。地方道路與明後天即時通阻須於出發前重查。";
+today.focus += " 台18另有72.15–72.25K刷坡08:00–17:00單線雙向；70.1K明隧道施工公告例假日不管制，今天不可套用平日每20分鐘放行。60.277–60.540K及58.8–59.7K仍有工程車出入，配合現場指揮。";
+today.segments.find(s=>s.code==="2C").note += " 續往石棹還會經72.15–72.25K刷坡，10/27–11/15每日08:00–17:00單線雙向；70.1K每施工20分鐘放行公告註明例假日不管制。";
+today.segments.find(s=>s.code==="2D").note += " 台18往隙頂另經60.277–60.540K、58.8–59.7K工程車出入路段，依標誌及交管慢行。";
+tripData.routeAlert.text += " 補查：台18 72.15–72.25K同樣08:00–17:00單線雙向；70.1K施工例假日不管制。";
+tripData.controlMap.sections.push(
+ {id:"control-today-72",title:"今日補充｜台18 72.15–72.25K刷坡",kind:"mobile",checked:"2026-11-01",time:"10/27–11/15，每日08:00–17:00單線雙向",detail:"阿里山往石棹2C會經過。警廣轉載更新期限至11/15；觀光署10/22彙整仍列10/31舊期限，採較新的警廣施工資訊並依現場確認。",url:"https://app2.ntpd.gov.tw/Mobile_TrafficInfo/RoadEvents_PoliceText_Main?Type=A",geometry:{segments:["2C"],from:72.15,to:72.25,anchors:[[72,23.4790504,120.7364642],[73,23.4833028,120.7407924]],source:"https://taiwanhelper.com/road/tw18",note:"72.15–72.25K依公里樁沿道路估算，非測量界線。"}},
+ {id:"control-today-70",title:"今日｜台18 70.1K：例假日不管制",kind:"mobile",checked:"2026-11-01",time:"至11/30；今日週日不套用平日放行班次",detail:"觀光署10/22彙整：平日08:00–17:00每施工20分鐘放行一次，例假日不管制；今日留意工區標誌，不預設需要等20分鐘。",url:"https://www.ali-nsa.net/zh-tw/event/news/2584",geometry:{segments:["2C"],from:70.1,to:70.1,anchors:[[70,23.4681172,120.7304305],[71,23.4728056,120.7349231]],source:"https://taiwanhelper.com/road/tw18",note:"70.1K依公里樁沿道路估算，色帶為約160公尺周邊。"}},
+ {id:"control-later-dongao",title:"11/3 Day 4｜台9東澳116.1K刷坡",kind:"mobile",checked:"2026-11-01",time:"10/20–11/13，每日09:00–16:00單線雙向",detail:"11/3週二、和平至蘇澳的4E會經過。假日不管制；今天查證不代表11/3當天即時通阻，出發前再核對。",url:"https://www.thb.gov.tw/NewsConstructionRoad_Content.aspx?n=353&s=240336",geometry:{segments:["4E"],from:116.1,to:116.1,anchors:[[116,24.5017449,121.836102],[117,24.4942761,121.8349748]],source:"https://taiwanhelper.com/road/tw9",note:"116.1K依公里樁沿道路估算，色帶為約160公尺周邊。"}},
+ {id:"control-later-zhuangbin",title:"11/3 Day 4｜台2壯濱145.4–147.5K",kind:"mobile",checked:"2026-11-01",time:"10/27–11/30，週一至週四09:00–17:00機動管制",detail:"11/3週二、蘇澳沿海往頭城4F適用。遇雨順延、假日不施工；無固定放行分鐘，須留停等彈性。",url:"https://www.thb.gov.tw/News_Content_Table.aspx?n=7839&s=307249&sms=13275",geometry:{segments:["4F"],from:145.4,to:147.5,anchors:[[145,24.7771043,121.8151873],[146,24.7681221,121.8157918],[147,24.7600665,121.8155907],[148,24.7501455,121.815936]],source:"https://taiwanhelper.com/road/tw2",note:"145.4–147.5K依公里樁沿道路估算；匹配失敗時只列管制卡。"}},
+ {id:"control-later-night",day:4,title:"11/3 Day 4｜蘇花夜間鋼梁運輸",kind:"window",checked:"2026-11-01",time:"11/2–11/20晚間23:20至翌日01:30分段封閉",detail:"東澳–南澳23:20封北上、23:30全封、00:20全開；和仁–崇德00:30封北上、00:50全封、01:30全開。11/21晚上不管制。原定白天通過不與本夜間班表重疊；若嚴重延誤，不可套用白天通行假設。實際隨運輸車到達時間調整。",url:"https://www.thb.gov.tw/News_Content_table.aspx?n=12181&s=307686&sms=14672",geometry:null}
+);
+const mataian=tripData.controlMap.sections.find(s=>s.id==="control-6");
+Object.assign(mataian,{kind:"mobile",checked:"2026-11-01",time:"9/30–12/25，每日08:00–17:00機動管制",detail:"11/3台9主線適用；鋼便橋鳳林端施工及交維調整，依現場人員指揮。原里程參考與便橋位置未能匹配道路軌跡，保留未定位提示；可比較既有台11甲海線備案。",url:"https://www.thb.gov.tw/News_Content_Table.aspx?n=7839&s=305727"});
+const jiugong=tripData.controlMap.sections.find(s=>s.id==="control-jiugong");
+Object.assign(jiugong,{kind:"mobile",checked:"2026-11-01",time:"至11/30，全日單線雙向紅綠燈管制",detail:"11/3週二4E適用。假日及連假不施工，仍有全日號誌交管，依紅綠燈通過。",url:"https://thbu4.thb.gov.tw/News_Content_table.aspx?n=5066&s=304909&sms=13366"});
+tripData.days[2].focus += " 11/1另批核對：台30南安4.05K及卓樂9.8K的11月放行公告位於玉里以西，本行程由海線經玉長公路到安通不進入該工區。安通往返玉里若導航經台9樂合／安和橋，依現場外側混合車道改道標誌通行、速限30。未查得與主線重疊的新全線封閉公告，不代表11/2即時全線暢通。";
+tripData.days[3].focus = "11/1另批複核11/3：台9馬太鞍溪鋼便橋08:00–17:00機動交管；新增東澳116.1K 09:00–16:00單線雙向、台2壯濱145.4–147.5K週二09:00–17:00機動管制。台9丁九宮里9.4K全日單線雙向號誌仍在。蘇花另有23:20至翌日01:30分段鋼梁運輸封路，原定白天通過不與夜間班表重疊。縣193本行程只走玉里至瑞穗的樂德段，不走北段24–30.15K封閉區；台9主線不經台11丙東華大橋。實際通阻仍須11/3出發及進蘇花前重查，富貴角步行依天色決定。";
+tripData.days[3].segments.find(s=>s.code==="4D").note = "由糖廠北上台9經馬太鞍溪鋼便橋，9/30–12/25每日08:00–17:00復建施工機動交管。主線維持台9，不經台11丙東華大橋；有必要才比較台11甲—台11海線備案。花蓮補油後續往和平。";
+tripData.days[3].segments.find(s=>s.code==="4E").note += " 11/3另有台9東澳116.1K 09:00–16:00單線雙向刷坡。11/2起蘇花23:20至翌日01:30分段運梁封閉，白天行程不套用夜間封路。";
+tripData.days[3].segments.find(s=>s.code==="4F").note += " 台2壯濱145.4–147.5K至11/30週一至週四09:00–17:00機動施工，11/3週二適用。";
+tripData.roadControlLinks.push(
+ {title:"11/2比對｜台30南安／卓樂，未重疊",url:"https://www.thb.gov.tw/News_Content_table.aspx?n=12181&s=307613",scope:"Day 3由海線到安通，不往玉里以西",routes:"台30 4.05K與9.8K",note:"11/1–11/30 08:00–17:00南安整點、卓樂半點各放10分，12:00–13:00不管制；本行程不經。"},
+ {title:"11/2–3｜樂合／安和橋改道",url:"https://www.thb.gov.tw/News_Content_Table.aspx?n=7839&s=305218",scope:"安通往返玉里依實際導航確認",routes:"台9 樂合橋至安和橋",note:"9/17起原車道改至南北各外側混合車道單線通行，速限30；現場改道為準。"},
+ {title:"11/3比對｜縣193北段封閉，樂德主線未重疊",url:"https://www.hl.gov.tw/News_Content.aspx?n=32725&s=206920&sms=25832",scope:"Day 4玉里至瑞穗以南的樂德路線",routes:"縣193 24–30.15K及42.75–43.2K",note:"公告北段封閉／號誌管制，與本行程南段不同；不可據此斷言樂德當日無其他臨時管制。"}
+);
+for(const item of tripData.controlMap.sections.filter(s=>s.id.startsWith("control-later")))tripData.roadControlLinks.push({title:item.title,url:item.url,scope:"Day 4；11/1複核，11/3出發前重查",routes:item.title,note:item.time+"。"+item.detail});
+const rank=item=>item.geometry?.segments?.some(s=>s.startsWith("2")) ? 0 : item.day===3 ? 1 : item.day===4 || item.geometry?.segments?.some(s=>s.startsWith("4")) ? 2 : 3;
+tripData.controlMap.sections.sort((a,b)=>rank(a)-rank(b));
 window.TRAVEL_TRIPS = window.TRAVEL_TRIPS || {};
 window.TRAVEL_TRIPS[tripData.meta.id] = tripData;
 window.TRIP_DATA = tripData;
